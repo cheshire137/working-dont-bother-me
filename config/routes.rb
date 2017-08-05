@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   }
 
   scope defaults: { format: :json }, path: '/api' do
-    get "/user" => "users#current", as: :current_user
+    get '/user' => 'users#current', as: :current_user
+    get '/generate-playlist' => 'spotify#generate_playlist', as: :generate_playlist
   end
 
   root to: 'home#index'

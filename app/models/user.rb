@@ -7,4 +7,8 @@ class User < ApplicationRecord
   devise :omniauthable, omniauth_providers: [:spotify]
 
   alias_attribute :to_s, :email
+
+  def spotify_api
+    SpotifyAPI.new(token, refresh_token)
+  end
 end

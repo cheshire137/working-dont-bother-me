@@ -61,4 +61,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'browserify-rails', '~> 4.2.0'
 gem 'font-awesome-rails', '~> 4.7.0.2'
 gem 'bulma-rails', '~> 0.4.3'
-gem 'httparty', '~> 0.15.5'
+gem 'httparty', '~> 0.15.6'

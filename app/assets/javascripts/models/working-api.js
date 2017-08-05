@@ -13,6 +13,10 @@ export default class WorkingAPI extends Fetcher {
     }
   }
 
+  generatePlaylist() {
+    return this.get('/generate-playlist', this.defaultHeaders)
+  }
+
   getUser() {
     return this.get('/user', this.defaultHeaders).
       then(json => json.user)
