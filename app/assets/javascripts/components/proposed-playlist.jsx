@@ -40,42 +40,49 @@ class ProposedPlaylist extends React.Component {
     const playlistSaved = typeof playlist !== 'undefined'
 
     return (
-      <div className="content columns">
-        <div className="column is-4 is-offset-2">
-          <p><strong>Based on: </strong></p>
-          <p><Track {...seedTrack} /></p>
-          <hr />
-          <p><strong>...here are some songs for you: </strong></p>
-          <TracksList tracks={tracks} />
-        </div>
-        <div className="column has-text-centered">
-          <p>Like the looks of it?</p>
-          <form onSubmit={e => this.savePlaylist(e)}>
-            <button type="submit" className="button is-primary is-large is-spotify">
-              {hasPlaylist ? 'Update' : 'Create'} Playlist
-            </button>
-            {playlistSaved ? (
-              <p className="help is-success">
-                <span>Your playlist has been </span>
-                <span>{newPlaylist ? 'created' : 'updated'}</span>
-                <span> on Spotify!</span>
-                <br />
-                <a
-                  href={playlist.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >&ldquo;{playlist.name}&rdquo;</a>
-              </p>
-            ) : (
-              <p className="help">
-                {hasPlaylist ? (
-                  <span>Your existing &ldquo;Working, Don't Bother Me&rdquo; playlist will be updated.</span>
+      <div className="content">
+        <div className="columns">
+          <div className="column is-4 is-offset-2">
+            <p><strong>Based on: </strong></p>
+            <p><Track {...seedTrack} /></p>
+          </div>
+          <div className="column is-4">
+            <div className="box has-text-centered">
+              <p><strong>Like the looks of it?</strong></p>
+              <form onSubmit={e => this.savePlaylist(e)}>
+                <button type="submit" className="button is-primary is-large is-spotify">
+                  {hasPlaylist ? 'Update' : 'Create'} Playlist
+                </button>
+                {playlistSaved ? (
+                  <p className="help is-success">
+                    <span>Your playlist has been </span>
+                    <span>{newPlaylist ? 'created' : 'updated'}</span>
+                    <span> on Spotify!</span>
+                    <br />
+                    <a
+                      href={playlist.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >&ldquo;{playlist.name}&rdquo;</a>
+                  </p>
                 ) : (
-                  <span>A new playlist will be created in your Spotify with these songs.</span>
+                  <p className="help">
+                    {hasPlaylist ? (
+                      <span>Your existing &ldquo;Working, Don't Bother Me&rdquo; playlist will be updated.</span>
+                    ) : (
+                      <span>A new playlist will be created in your Spotify with these songs.</span>
+                    )}
+                  </p>
                 )}
-              </p>
-            )}
-          </form>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div className="columns">
+          <div className="column is-8 is-offset-2">
+            <p><strong>...here are some songs for you: </strong></p>
+            <TracksList tracks={tracks} />
+          </div>
         </div>
       </div>
     )
