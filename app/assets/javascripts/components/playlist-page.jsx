@@ -1,5 +1,7 @@
 import LocalStorage from '../models/local-storage'
 
+import Header from './header.jsx'
+
 class PlaylistPage extends React.Component {
   constructor(props) {
     super(props)
@@ -12,11 +14,14 @@ class PlaylistPage extends React.Component {
     const { authenticityToken } = this.state
 
     return (
-      <section className="section">
-        <div className="container">
-          ayyy
-        </div>
-      </section>
+      <div>
+        <Header title="Create Working Playlist" />
+        <section className="section">
+          <div className="container">
+            ayyy
+          </div>
+        </section>
+      </div>
     )
   }
 }

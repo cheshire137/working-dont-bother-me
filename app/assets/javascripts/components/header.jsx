@@ -15,10 +15,6 @@ const Header = function(props) {
             className="nav-item is-brand"
             href="/"
           >Working, Don't Bother Me</a>
-          <a
-            href="/user"
-            className={`nav-item ${title === 'Create Playlist' ? 'is-active' : ''}`}
-          >Create Playlist</a>
         </div>
         <div className="nav-right">
           <span
