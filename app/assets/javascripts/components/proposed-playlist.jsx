@@ -66,7 +66,15 @@ class ProposedPlaylist extends React.Component {
                   rel="noopener noreferrer"
                 >&ldquo;{playlist.name}&rdquo;</a>
               </p>
-            ) : ''}
+            ) : (
+              <p className="help">
+                {hasPlaylist ? (
+                  <span>Your existing &ldquo;Working, Don't Bother Me&rdquo; playlist will be updated.</span>
+                ) : (
+                  <span>A new playlist will be created in your Spotify with these songs.</span>
+                )}
+              </p>
+            )}
           </form>
         </div>
       </div>
