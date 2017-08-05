@@ -15,7 +15,7 @@ class SpotifyAPI
     while tracks.empty?
       seed_track, tracks = seed_track_and_recommendations
     end
-    [seed_track, tracks]
+    [track_info(seed_track), track_info(tracks)]
   end
 
   # https://developer.spotify.com/web-api/web-api-personalization-endpoints/get-recently-played/
@@ -36,8 +36,7 @@ class SpotifyAPI
 
   def sample_track
     tracks = recently_played + saved_tracks
-    track = tracks.sample['track']
-    track_info(track)
+    tracks.sample['track']
   end
 
   # Returns a hash of audio features, like acousticness and danceability,
@@ -71,7 +70,7 @@ class SpotifyAPI
       end
     end
     data = get(path)
-    track_info(data['tracks'])
+    data['tracks']
   end
 
   # https://developer.spotify.com/web-api/create-playlist/
