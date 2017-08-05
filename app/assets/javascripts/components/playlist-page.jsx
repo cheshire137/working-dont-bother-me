@@ -1,4 +1,3 @@
-import LocalStorage from '../models/local-storage'
 import WorkingAPI from '../models/working-api'
 
 import Header from './header.jsx'
@@ -7,9 +6,7 @@ import ProposedPlaylist from './proposed-playlist.jsx'
 class PlaylistPage extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      authenticityToken: LocalStorage.get('authenticity-token')
-    }
+    this.state = {}
   }
 
   componentDidMount() {
@@ -20,7 +17,6 @@ class PlaylistPage extends React.Component {
   }
 
   onPlaylistGenerated(data) {
-    console.log(data)
     this.setState({ tracks: data.tracks, seedTrack: data.seedTrack })
   }
 

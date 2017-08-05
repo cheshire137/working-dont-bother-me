@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 
+import LocalStorage from '../models/local-storage'
 import WorkingAPI from '../models/working-api'
 
 import Track from './track.jsx'
@@ -8,7 +9,9 @@ import TracksList from './tracks-list.jsx'
 class ProposedPlaylist extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      hasPlaylist: LocalStorage.get('hasPlaylist')
+    }
   }
 
   savePlaylist(event) {
@@ -20,7 +23,11 @@ class ProposedPlaylist extends React.Component {
   }
 
   onPlaylistSaved(data) {
-    this.setState({ playlist: data.playlist, newPlaylist: !data.hadPlaylist })
+    this.setState({
+      playlist: data.playlist,
+      newPlaylist: !data.hadPlaylist,
+      hasPlaylist: true
+    })
   }
 
   onPlaylistError(error) {
@@ -29,7 +36,7 @@ class ProposedPlaylist extends React.Component {
 
   render() {
     const { seedTrack, tracks } = this.props
-    const { playlist, newPlaylist } = this.state
+    const { playlist, newPlaylist, hasPlaylist } = this.state
     const playlistSaved = typeof playlist !== 'undefined'
 
     return (
@@ -45,7 +52,7 @@ class ProposedPlaylist extends React.Component {
           <p>Like the looks of it?</p>
           <form onSubmit={e => this.savePlaylist(e)}>
             <button type="submit" className="button is-primary is-large is-spotify">
-              Save Playlist
+              {hasPlaylist ? 'Update' : 'Create'} Playlist
             </button>
             {playlistSaved ? (
               <p className="help is-success">

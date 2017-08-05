@@ -9,6 +9,16 @@ import NotFound from './not-found.jsx'
 import WorkingAPI from '../models/working-api'
 import LocalStorage from '../models/local-storage'
 
+function setUser(json) {
+  LocalStorage.set('email', json.email)
+  LocalStorage.set('hasPlaylist', json.hasPlaylist)
+}
+
+function forgetUser() {
+  LocalStorage.delete('email')
+  LocalStorage.delete('hasPlaylist')
+}
+
 function requireAuth(nextState, replace, callback) {
   const api = new WorkingAPI()
 
@@ -16,9 +26,9 @@ function requireAuth(nextState, replace, callback) {
     LocalStorage.set('authenticity-token', json.authenticityToken)
 
     if (json.auth) {
-      LocalStorage.set('email', json.email)
+      setUser(json)
     } else {
-      LocalStorage.delete('email')
+      forgetUser()
 
       replace({
         pathname: '/',
@@ -49,14 +59,14 @@ function redirectIfSignedIn(nextState, replace, callback) {
     LocalStorage.set('authenticity-token', json.authenticityToken)
 
     if (json.auth) {
-      LocalStorage.set('email', json.email)
+      setUser(json)
 
       replace({
         pathname: newPath,
         state: { nextPathname: nextState.location.pathname }
       })
     } else {
-      LocalStorage.delete('email')
+      forgetUser()
     }
   }).then(callback)
 }
