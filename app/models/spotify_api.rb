@@ -1,7 +1,9 @@
 class SpotifyAPI
   include HTTParty
   base_uri 'https://api.spotify.com'
-  API_VERSION = "v1"
+  API_VERSION = 'v1'
+  PLAYLIST_NAME = "Working, Don't Bother Me"
+  PLAYLIST_DESCRIPTION = 'Peaceful, ambient, atmospheric tracks to work to.'
 
   def initialize(user)
     @user = user
@@ -71,6 +73,30 @@ class SpotifyAPI
     data['tracks']
   end
 
+  # https://developer.spotify.com/web-api/create-playlist/
+  def create_playlist
+    url = "/#{API_VERSION}/users/#{@user.uid}/playlists"
+    headers = default_headers('Content-Type' => 'application/json')
+    timestamp = Time.zone.now.strftime('%-d %b %Y')
+    body = {
+      name: "#{PLAYLIST_NAME} (#{timestamp})",
+      description: PLAYLIST_DESCRIPTION
+    }
+    data = self.class.post(url, headers: headers, body: body.to_json).parsed_response
+    raise SpotifyError, data['error']['message'] if data['error']
+    data
+  end
+
+  # https://developer.spotify.com/web-api/add-tracks-to-playlist/
+  def add_tracks_to_playlist(playlist_id, uris)
+    url = "/#{API_VERSION}/users/#{@user.uid}/playlists/#{playlist_id}/tracks"
+    headers = default_headers('Content-Type' => 'application/json')
+    body = { uris: uris }.to_json
+    data = self.class.post(url, headers: headers, body: body).parsed_response
+    raise SpotifyError, data['error']['message'] if data['error']
+    data
+  end
+
   private
 
   # Returns a track that was used as a seed for recommendations, as well as a list of
@@ -90,9 +116,13 @@ class SpotifyAPI
     '%0.1f' % rand(min..max)
   end
 
+  def default_headers(extra = {})
+    extra.merge("Authorization" => "Bearer #{@user.token}")
+  end
+
   def get(path)
     url = "/#{API_VERSION}#{path}"
-    data = self.class.get(url, headers: { "Authorization" => "Bearer #{@user.token}" }).parsed_response
+    data = self.class.get(url, headers: default_headers).parsed_response
     if data['error']
       if data['error']['status'] == 401
         data = update_tokens_and_retry(url)
@@ -108,9 +138,7 @@ class SpotifyAPI
       raise 'Unable to fetch Spotify data at this time.'
     end
 
-    data = self.class.get(url, headers: {
-      "Authorization" => "Bearer #{@user.token}"
-    }).parsed_response
+    data = self.class.get(url, headers: default_headers).parsed_response
     raise SpotifyError, data['error']['message'] if data['error']
     data
   end

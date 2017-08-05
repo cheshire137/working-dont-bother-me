@@ -2,6 +2,7 @@ json.tracks do
   json.array! @tracks do |track|
     json.id track['id']
     json.name track['name']
+    json.uri track['uri']
     json.artists do
       json.array! track['artists'] do |artist|
         json.id artist['id']

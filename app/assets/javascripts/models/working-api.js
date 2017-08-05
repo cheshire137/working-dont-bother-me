@@ -17,6 +17,11 @@ export default class WorkingAPI extends Fetcher {
     return this.get('/generate-playlist', this.defaultHeaders)
   }
 
+  savePlaylist(uris) {
+    return this.post('/save-playlist', this.defaultHeaders, { uris }).
+      then(json => json.playlist)
+  }
+
   getUser() {
     return this.get('/user', this.defaultHeaders).
       then(json => json.user)
