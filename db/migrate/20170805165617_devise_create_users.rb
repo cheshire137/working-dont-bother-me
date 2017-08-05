@@ -32,6 +32,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.1]
 
       t.string :token
       t.string :refresh_token
+      t.string :uid
 
       t.timestamps null: false
     end
