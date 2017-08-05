@@ -58,8 +58,8 @@ class SpotifyAPI
   end
 
   # https://developer.spotify.com/web-api/get-recommendations/
-  def recommendations(limit: 20, seed_tracks: [], features: {})
-    path = "/recommendations?limit=#{limit}"
+  def recommendations(limit: 21, seed_tracks: [], features: {})
+    path = "/recommendations?limit=#{limit + 5}"
     if seed_tracks.any?
       track_ids = seed_tracks.map { |track| track['id'] }.join(',')
       path += "&seed_tracks=#{track_ids}"
@@ -70,7 +70,8 @@ class SpotifyAPI
       end
     end
     data = get(path)
-    data['tracks']
+    tracks = data['tracks'].uniq { |track| track['id'] }
+    tracks[0...limit]
   end
 
   # https://developer.spotify.com/web-api/get-playlist/
