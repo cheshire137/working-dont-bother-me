@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>
+      <%= content_for?(:title_tag) ? content_for(:title_tag) + ' - ' : '' %>Working, Don't Bother Me
+    </title>
+    <%= csrf_meta_tags %>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width,initial-scale=1" name="viewport">
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+  </head>
+  <body>
+    <% if alert.present? %>
+      <div class="container has-text-center">
+        <div class="notification is-warning"><%= alert %></div>
+      </div>
+    <% end %>
+    <% if notice.present? %>
+      <div class="container has-text-center">
+        <div class="notification is-success"><%= notice %></div>
+      </div>
+    <% end %>
+    <%= yield %>
+    <%= javascript_include_tag 'application' %>
+  </body>
+</html>
