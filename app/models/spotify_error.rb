@@ -1,0 +1,2 @@
+class SpotifyError < StandardError
+end

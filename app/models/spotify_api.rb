@@ -3,10 +3,8 @@ class SpotifyAPI
   base_uri 'https://api.spotify.com'
   API_VERSION = "v1"
 
-  def initialize(token, refresh_token)
-    @token = token
-    @refresh_token = refresh_token
-    @options = { headers: { "Authorization" => "Bearer #{token}" } }
+  def initialize(user)
+    @user = user
   end
 
   # Returns a seed track and a list of recommended tracks that should be good to work to.
@@ -20,7 +18,7 @@ class SpotifyAPI
 
   # https://developer.spotify.com/web-api/web-api-personalization-endpoints/get-recently-played/
   def recently_played(limit: 10)
-    Rails.cache.fetch("token/#{@token}/recently_played", expires_in: 1.hour) do
+    Rails.cache.fetch("user/#{@user.id}/recently_played", expires_in: 1.hour) do
       data = get("/me/player/recently-played?limit=#{limit}")
       data['items']
     end
@@ -28,7 +26,7 @@ class SpotifyAPI
 
   # https://developer.spotify.com/web-api/get-users-saved-tracks/
   def saved_tracks(limit: 10)
-    Rails.cache.fetch("token/#{@token}/saved_tracks", expires_in: 1.hour) do
+    Rails.cache.fetch("user/#{@user.id}/saved_tracks", expires_in: 1.hour) do
       data = get("/me/tracks?limit=#{limit}")
       data['items']
     end
@@ -93,7 +91,27 @@ class SpotifyAPI
   end
 
   def get(path)
-    puts "/#{API_VERSION}#{path}"
-    self.class.get("/#{API_VERSION}#{path}", @options).parsed_response
+    url = "/#{API_VERSION}#{path}"
+    data = self.class.get(url, headers: { "Authorization" => "Bearer #{@user.token}" }).parsed_response
+    if data['error']
+      if data['error']['status'] == 401
+        data = update_tokens_and_retry(url)
+      else
+        raise SpotifyError, data['error']['message']
+      end
+    end
+    data
+  end
+
+  def update_tokens_and_retry(url)
+    unless @user.update_tokens
+      raise 'Unable to fetch Spotify data at this time.'
+    end
+
+    data = self.class.get(url, headers: {
+      "Authorization" => "Bearer #{@user.token}"
+    }).parsed_response
+    raise SpotifyError, data['error']['message'] if data['error']
+    data
   end
 end

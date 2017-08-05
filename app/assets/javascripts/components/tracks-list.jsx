@@ -7,19 +7,13 @@ class TracksList extends React.Component {
     const { tracks } = this.props
 
     return (
-      <div>
-        <p>
-          <strong>{tracks.length} </strong>
-          track{tracks.length === 1 ? '' : 's'}
-        </p>
-        <ul className="tracks-list">
-          {tracks.map(track => (
-            <li key={track.id}>
-              <Track {...track} />
-            </li>
-          ))}
-        </ul>
-      </div>
+      <ul className="tracks-list">
+        {tracks.map(track => (
+          <li key={track.id}>
+            <Track {...track} />
+          </li>
+        ))}
+      </ul>
     )
   }
 }
