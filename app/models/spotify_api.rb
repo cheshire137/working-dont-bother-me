@@ -19,15 +19,19 @@ class SpotifyAPI
   end
 
   # https://developer.spotify.com/web-api/web-api-personalization-endpoints/get-recently-played/
-  def recently_played(limit: 5)
-    data = get("/me/player/recently-played?limit=#{limit}")
-    data['items']
+  def recently_played(limit: 10)
+    Rails.cache.fetch("token/#{@token}/recently_played", expires_in: 1.hour) do
+      data = get("/me/player/recently-played?limit=#{limit}")
+      data['items']
+    end
   end
 
   # https://developer.spotify.com/web-api/get-users-saved-tracks/
-  def saved_tracks(limit: 5)
-    data = get("/me/tracks?limit=#{limit}")
-    data['items']
+  def saved_tracks(limit: 10)
+    Rails.cache.fetch("token/#{@token}/saved_tracks", expires_in: 1.hour) do
+      data = get("/me/tracks?limit=#{limit}")
+      data['items']
+    end
   end
 
   def sample_track
