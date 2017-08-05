@@ -2,6 +2,7 @@ import LocalStorage from '../models/local-storage'
 import WorkingAPI from '../models/working-api'
 
 import Header from './header.jsx'
+import ProposedPlaylist from './proposed-playlist.jsx'
 
 class PlaylistPage extends React.Component {
   constructor(props) {
@@ -20,46 +21,30 @@ class PlaylistPage extends React.Component {
 
   onPlaylistGenerated(data) {
     console.log(data)
-    this.setState({ tracks: data.tracks })
+    this.setState({ tracks: data.tracks, seedTrack: data.seedTrack })
   }
 
   onPlaylistGenerationError(error) {
     console.error('failed to generate a playlist', error)
   }
 
-  tracksList() {
-    const { tracks } = this.state
-
-    if (typeof tracks === 'undefined') {
-      return <p>Loading...</p>
-    }
-
-    return (
-      <ul>
-        {tracks.map(track => (
-          <li key={track.id}>
-            <span className="track-name">{track.name}</span>
-            <span> by </span>
-            {track.artists.map(artist => (
-              <span key={artist.id} className="artist-name">
-                {artist.name}
-              </span>
-            ))}
-          </li>
-        ))}
-      </ul>
-    )
-  }
-
   render() {
-    const { authenticityToken } = this.state
+    const { tracks, seedTrack } = this.state
+    const tracksLoaded = typeof tracks !== 'undefined'
 
     return (
       <div>
         <Header title="Create Working Playlist" />
         <section className="section">
           <div className="container">
-            {this.tracksList()}
+            {tracksLoaded ? (
+              <ProposedPlaylist
+                tracks={tracks}
+                seedTrack={seedTrack}
+              />
+            ) : (
+              <p>Finding some songs...</p>
+            )}
           </div>
         </section>
       </div>
