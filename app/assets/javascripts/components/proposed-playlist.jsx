@@ -19,8 +19,8 @@ class ProposedPlaylist extends React.Component {
       catch(err => this.onPlaylistError(err))
   }
 
-  onPlaylistSaved(playlist) {
-    this.setState({ playlist })
+  onPlaylistSaved(data) {
+    this.setState({ playlist: data.playlist, newPlaylist: !data.hadPlaylist })
   }
 
   onPlaylistError(error) {
@@ -29,7 +29,7 @@ class ProposedPlaylist extends React.Component {
 
   render() {
     const { seedTrack, tracks } = this.props
-    const { playlist } = this.state
+    const { playlist, newPlaylist } = this.state
     const playlistSaved = typeof playlist !== 'undefined'
 
     return (
@@ -49,7 +49,9 @@ class ProposedPlaylist extends React.Component {
             </button>
             {playlistSaved ? (
               <p className="help is-success">
-                Your playlist has been created on Spotify!
+                <span>Your playlist has been </span>
+                <span>{newPlaylist ? 'created' : 'updated'}</span>
+                <span> on Spotify!</span>
                 <br />
                 <a
                   href={playlist.url}

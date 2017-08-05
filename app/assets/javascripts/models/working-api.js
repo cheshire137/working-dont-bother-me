@@ -18,8 +18,7 @@ export default class WorkingAPI extends Fetcher {
   }
 
   savePlaylist(uris) {
-    return this.post('/save-playlist', this.defaultHeaders, { uris }).
-      then(json => json.playlist)
+    return this.post('/save-playlist', this.defaultHeaders, { uris })
   }
 
   getUser() {

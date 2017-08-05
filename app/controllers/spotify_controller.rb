@@ -8,9 +8,15 @@ class SpotifyController < ApplicationController
   def save_playlist
     track_uris = params[:uris]
     return head :bad_request if track_uris.empty?
-
-    @playlist = api.create_playlist
-    api.add_tracks_to_playlist(@playlist['id'], track_uris)
+    @user_had_playlist = current_user.has_playlist?
+    @playlist = if @user_had_playlist
+      api.get_playlist
+    else
+      api.create_playlist
+    end
+    current_user.playlist_id = @playlist['id']
+    current_user.save
+    api.replace_playlist_tracks(current_user.playlist_id, track_uris)
   end
 
   private

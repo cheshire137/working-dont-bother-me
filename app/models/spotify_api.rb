@@ -3,7 +3,7 @@ class SpotifyAPI
   base_uri 'https://api.spotify.com'
   API_VERSION = 'v1'
   PLAYLIST_NAME = "Working, Don't Bother Me"
-  PLAYLIST_DESCRIPTION = 'Peaceful, ambient, atmospheric tracks to work to.'
+  PLAYLIST_DESCRIPTION = 'Peaceful, ambient, and atmospheric tracks to work to.'
 
   def initialize(user)
     @user = user
@@ -73,26 +73,27 @@ class SpotifyAPI
     data['tracks']
   end
 
+  # https://developer.spotify.com/web-api/get-playlist/
+  def get_playlist
+    get("/users/#{@user.uid}/playlists/#{@user.playlist_id}")
+  end
+
   # https://developer.spotify.com/web-api/create-playlist/
   def create_playlist
     url = "/#{API_VERSION}/users/#{@user.uid}/playlists"
     headers = default_headers('Content-Type' => 'application/json')
-    timestamp = Time.zone.now.strftime('%-d %b %Y')
-    body = {
-      name: "#{PLAYLIST_NAME} (#{timestamp})",
-      description: PLAYLIST_DESCRIPTION
-    }
+    body = { name: PLAYLIST_NAME, description: PLAYLIST_DESCRIPTION }
     data = self.class.post(url, headers: headers, body: body.to_json).parsed_response
     raise SpotifyError, data['error']['message'] if data['error']
     data
   end
 
-  # https://developer.spotify.com/web-api/add-tracks-to-playlist/
-  def add_tracks_to_playlist(playlist_id, uris)
+  # https://developer.spotify.com/web-api/replace-playlists-tracks/
+  def replace_playlist_tracks(playlist_id, uris)
     url = "/#{API_VERSION}/users/#{@user.uid}/playlists/#{playlist_id}/tracks"
     headers = default_headers('Content-Type' => 'application/json')
     body = { uris: uris }.to_json
-    data = self.class.post(url, headers: headers, body: body).parsed_response
+    data = self.class.put(url, headers: headers, body: body).parsed_response
     raise SpotifyError, data['error']['message'] if data['error']
     data
   end

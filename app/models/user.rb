@@ -25,6 +25,11 @@ class User < ApplicationRecord
     end
   end
 
+  # Has this user saved a Working playlist before?
+  def has_playlist?
+    playlist_id.present?
+  end
+
   private
 
   def get_updated_tokens

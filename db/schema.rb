@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20170805165617) do
     t.string "token"
     t.string "refresh_token"
     t.string "uid"
+    t.string "playlist_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
