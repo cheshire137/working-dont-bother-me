@@ -18,7 +18,9 @@ class User < ApplicationRecord
   def update_tokens
     if tokens = get_updated_tokens
       self.token = tokens['access_token']
-      self.refresh_token = tokens['refresh_token']
+      if (new_refresh_token = tokens['refresh_token']).present?
+        self.refresh_token = new_refresh_token
+      end
       save
     end
   end
