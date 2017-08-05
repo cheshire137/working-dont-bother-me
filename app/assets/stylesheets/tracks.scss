@@ -1,12 +1,26 @@
 .track-image {
   display: inline-block;
-  max-width: 32px;
   vertical-align: middle;
-  margin-right: 0.5em;
+  margin-right: 10px;
   border-radius: 0.2em;
 }
 
 .content ul.tracks-list {
   list-style: none;
   margin-left: 0;
+}
+
+.artist-names {
+  display: block;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.track-link {
+  @include display-flex;
+  @include align-items(center);
+}
+
+.track-info {
+  @include flex-grow(1);
 }

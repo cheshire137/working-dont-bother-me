@@ -34,13 +34,14 @@ class ProposedPlaylist extends React.Component {
 
     return (
       <div className="content columns">
-        <div className="column">
-          <p>
-            <strong>Based on </strong> <Track {...seedTrack} />
-          </p>
+        <div className="column is-4 is-offset-2">
+          <p><strong>Based on: </strong></p>
+          <p><Track {...seedTrack} /></p>
+          <hr />
+          <p><strong>...here are some songs for you: </strong></p>
           <TracksList tracks={tracks} />
         </div>
-        <div className="column">
+        <div className="column has-text-centered">
           <p>Like the looks of it?</p>
           <form onSubmit={e => this.savePlaylist(e)}>
             <button type="submit" className="button is-primary is-large is-spotify">
@@ -49,11 +50,12 @@ class ProposedPlaylist extends React.Component {
             {playlistSaved ? (
               <p className="help is-success">
                 Your playlist has been created on Spotify!
+                <br />
                 <a
                   href={playlist.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                >{playlist.name}</a>
+                >&ldquo;{playlist.name}&rdquo;</a>
               </p>
             ) : ''}
           </form>

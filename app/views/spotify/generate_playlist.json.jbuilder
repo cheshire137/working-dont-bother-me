@@ -3,10 +3,12 @@ json.tracks do
     json.id track['id']
     json.name track['name']
     json.uri track['uri']
+    json.url track['external_urls']['spotify']
     if image = small_image(track['album']['images'])
       json.image do
         json.url image['url']
         json.width image['width']
+        json.height image['height']
       end
     end
     json.artists do
@@ -20,10 +22,12 @@ end
 json.seedTrack do
   json.id @seed_track['id']
   json.name @seed_track['name']
+  json.url @seed_track['external_urls']['spotify']
   if image = small_image(@seed_track['album']['images'])
     json.image do
       json.url image['url']
       json.width image['width']
+      json.height image['height']
     end
   end
   json.artists do

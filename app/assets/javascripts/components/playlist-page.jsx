@@ -43,7 +43,9 @@ class PlaylistPage extends React.Component {
                 seedTrack={seedTrack}
               />
             ) : (
-              <p>Finding some songs...</p>
+              <h2
+                className="title is-1 has-text-centered"
+              >Finding some songs...</h2>
             )}
           </div>
         </section>

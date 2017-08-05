@@ -3,6 +3,11 @@ const Footer = function() {
     <footer className="footer is-inset">
       <div className="container has-text-centered">
         <a
+          href="http://sarahvessels.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Built with &hearts; by Sarah</a>
+        <a
           href="https://github.com/cheshire137/working-dont-bother-me"
           target="_blank"
           rel="noopener noreferrer"
