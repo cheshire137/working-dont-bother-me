@@ -50,7 +50,7 @@ class SpotifyAPI
       energy: feature_in_range(0.0, 0.5),
 
       # "Values above 0.5 are intended to represent instrumental tracks"
-      instrumentalness: feature_in_range(0.7, 1.0),
+      instrumentalness: feature_in_range(0.8, 1.0),
 
       # "Values above 0.66 describe tracks that are probably made entirely of spoken words"
       speechiness: feature_in_range(0.0, 0.3)
@@ -127,7 +127,7 @@ class SpotifyAPI
   # Returns a Spotify audio feature within the given numeric range, formatted
   # to the precision the Spotify API expects.
   def feature_in_range(min, max)
-    '%0.1f' % rand(min..max)
+    '%0.2f' % rand(min..max)
   end
 
   def default_headers(extra = {})
