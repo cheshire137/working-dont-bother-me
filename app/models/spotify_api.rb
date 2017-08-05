@@ -1,9 +1,12 @@
 class SpotifyAPI
   include HTTParty
-  base_uri 'https://api.spotify.com'
+
+  BASE_URI = 'https://api.spotify.com'
   API_VERSION = 'v1'
   PLAYLIST_NAME = "Working, Don't Bother Me"
   PLAYLIST_DESCRIPTION = 'Peaceful, ambient, and atmospheric tracks to work to.'
+
+  base_uri BASE_URI
 
   def initialize(user)
     @user = user
@@ -39,6 +42,23 @@ class SpotifyAPI
     tracks.sample['track']
   end
 
+  def working_feature_minimums
+    {
+      # "Values above 0.5 are intended to represent instrumental tracks"
+      instrumentalness: 0.8
+    }
+  end
+
+  def working_feature_maximums
+    {
+      # "death metal has high energy, while a Bach prelude scores low on the scale"
+      energy: 0.5,
+
+      # "Values above 0.66 describe tracks that are probably made entirely of spoken words"
+      speechiness: 0.3
+    }
+  end
+
   # Returns a hash of audio features, like acousticness and danceability,
   # with values conducive to focused work.
   def working_features
@@ -58,7 +78,7 @@ class SpotifyAPI
   end
 
   # https://developer.spotify.com/web-api/get-recommendations/
-  def recommendations(limit: 21, seed_tracks: [], features: {})
+  def recommendations(limit: 21, min_features: {}, seed_tracks: [], features: {}, max_features: {})
     path = "/recommendations?limit=#{limit + 5}"
     if seed_tracks.any?
       track_ids = seed_tracks.map { |track| track['id'] }.join(',')
@@ -67,6 +87,16 @@ class SpotifyAPI
     if features.any?
       features.each do |feature, value|
         path += "&target_#{feature}=#{value}"
+      end
+    end
+    if min_features.any?
+      min_features.each do |feature, value|
+        path += "&min_#{feature}=#{value}"
+      end
+    end
+    if max_features.any?
+      max_features.each do |feature, value|
+        path += "&max_#{feature}=#{value}"
       end
     end
     data = get(path)
@@ -84,6 +114,7 @@ class SpotifyAPI
     url = "/#{API_VERSION}/users/#{@user.uid}/playlists"
     headers = default_headers('Content-Type' => 'application/json')
     body = { name: PLAYLIST_NAME, description: PLAYLIST_DESCRIPTION }
+    Rails.logger.info "POST #{BASE_URI}#{url}"
     data = self.class.post(url, headers: headers, body: body.to_json).parsed_response
     raise SpotifyError, data['error']['message'] if data['error']
     data
@@ -94,6 +125,7 @@ class SpotifyAPI
     url = "/#{API_VERSION}/users/#{@user.uid}/playlists/#{playlist_id}/tracks"
     headers = default_headers('Content-Type' => 'application/json')
     body = { uris: uris }.to_json
+    Rails.logger.info "PUT #{BASE_URI}#{url}"
     data = self.class.put(url, headers: headers, body: body).parsed_response
     raise SpotifyError, data['error']['message'] if data['error']
     data
@@ -121,7 +153,10 @@ class SpotifyAPI
     seed_tracks = []
     seed_tracks << seed_track if seed_track
     features = working_features
-    tracks = recommendations(seed_tracks: seed_tracks, features: features)
+    min_features = working_feature_minimums
+    max_features = working_feature_maximums
+    tracks = recommendations(seed_tracks: seed_tracks, features: features,
+                             min_features: min_features, max_features: max_features)
     [seed_track, tracks]
   end
 
@@ -137,6 +172,7 @@ class SpotifyAPI
 
   def get(path)
     url = "/#{API_VERSION}#{path}"
+    Rails.logger.info "GET #{BASE_URI}#{url}"
     data = self.class.get(url, headers: default_headers).parsed_response
     if data['error']
       if data['error']['status'] == 401
