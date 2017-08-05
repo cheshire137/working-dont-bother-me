@@ -45,6 +45,9 @@ class ProposedPlaylist extends React.Component {
           <div className="column is-4 is-offset-2">
             <p><strong>Based on: </strong></p>
             <p><Track {...seedTrack} /></p>
+            <p className="help">
+              You recently saved or played this song.
+            </p>
           </div>
           <div className="column is-4">
             <div className="box has-text-centered">
