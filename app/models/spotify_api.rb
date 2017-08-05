@@ -9,6 +9,15 @@ class SpotifyAPI
     @options = { headers: { "Authorization" => "Bearer #{token}" } }
   end
 
+  # Returns a seed track and a list of recommended tracks that should be good to work to.
+  def working_recommendations
+    seed_track, tracks = seed_track_and_recommendations
+    while tracks.empty?
+      seed_track, tracks = seed_track_and_recommendations
+    end
+    [seed_track, tracks]
+  end
+
   # https://developer.spotify.com/web-api/web-api-personalization-endpoints/get-recently-played/
   def recently_played(limit: 5)
     data = get("/me/player/recently-played?limit=#{limit}")
@@ -57,11 +66,21 @@ class SpotifyAPI
       end
     end
     data = get(path)
-    puts data.inspect
     data['tracks']
   end
 
   private
+
+  # Returns a track that was used as a seed for recommendations, as well as a list of
+  # recommended tracks from that seed.
+  def seed_track_and_recommendations
+    seed_track = sample_track
+    seed_tracks = []
+    seed_tracks << seed_track if seed_track
+    features = working_features
+    tracks = recommendations(seed_tracks: seed_tracks, features: features)
+    [seed_track, tracks]
+  end
 
   # Returns a Spotify audio feature within the given numeric range, formatted
   # to the precision the Spotify API expects.

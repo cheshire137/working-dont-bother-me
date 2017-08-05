@@ -3,8 +3,6 @@ class SpotifyController < ApplicationController
 
   def generate_playlist
     api = current_user.spotify_api
-    @seed_track = api.sample_track
-    features = api.working_features
-    @tracks = api.recommendations(seed_tracks: [@seed_track], features: features)
+    @seed_track, @tracks = api.working_recommendations
   end
 end
