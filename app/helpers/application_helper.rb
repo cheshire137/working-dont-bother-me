@@ -4,4 +4,8 @@ module ApplicationHelper
     when '/' then 'Home'
     end
   end
+
+  def small_image(images)
+    images.detect { |image| image['height'] <= 64 }
+  end
 end

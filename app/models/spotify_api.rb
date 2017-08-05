@@ -36,7 +36,8 @@ class SpotifyAPI
 
   def sample_track
     tracks = recently_played + saved_tracks
-    tracks.sample['track']
+    track = tracks.sample['track']
+    track_info(track)
   end
 
   # Returns a hash of audio features, like acousticness and danceability,
@@ -70,7 +71,7 @@ class SpotifyAPI
       end
     end
     data = get(path)
-    data['tracks']
+    track_info(data['tracks'])
   end
 
   # https://developer.spotify.com/web-api/create-playlist/
@@ -95,6 +96,19 @@ class SpotifyAPI
     data = self.class.post(url, headers: headers, body: body).parsed_response
     raise SpotifyError, data['error']['message'] if data['error']
     data
+  end
+
+  # https://developer.spotify.com/web-api/get-several-tracks/
+  def track_info(basic_tracks)
+    basic_tracks = [basic_tracks] unless basic_tracks.is_a?(Array)
+    ids = basic_tracks.map { |track| track['id'] }.join(',')
+    data = get("/tracks/?ids=#{ids}")
+    full_tracks = data['tracks']
+    if basic_tracks.size == 1
+      full_tracks[0]
+    else
+      full_tracks
+    end
   end
 
   private
