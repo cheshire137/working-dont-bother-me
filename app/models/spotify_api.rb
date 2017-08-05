@@ -18,7 +18,8 @@ class SpotifyAPI
     while tracks.empty?
       seed_track, tracks = seed_track_and_recommendations
     end
-    [track_info(seed_track), track_info(tracks)]
+    full_seed_track = track_info(seed_track)[0]
+    [full_seed_track, track_info(*tracks)]
   end
 
   # https://developer.spotify.com/web-api/web-api-personalization-endpoints/get-recently-played/
@@ -132,16 +133,10 @@ class SpotifyAPI
   end
 
   # https://developer.spotify.com/web-api/get-several-tracks/
-  def track_info(basic_tracks)
-    basic_tracks = [basic_tracks] unless basic_tracks.is_a?(Array)
-    ids = basic_tracks.map { |track| track['id'] }.join(',')
+  def track_info(*tracks)
+    ids = tracks.map { |track| track['id'] }.join(',')
     data = get("/tracks/?ids=#{ids}")
-    full_tracks = data['tracks']
-    if basic_tracks.size == 1
-      full_tracks[0]
-    else
-      full_tracks
-    end
+    data['tracks']
   end
 
   private
