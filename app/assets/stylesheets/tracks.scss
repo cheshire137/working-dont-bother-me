@@ -2,6 +2,7 @@
   @include display-flex;
   @include align-items(center);
   @include flex-grow(1);
+  overflow: hidden;
 }
 
 .track-image {
@@ -44,6 +45,7 @@
 button.audio-toggle {
   @include appearance(none);
   @include user-select(none);
+  @include flex-shrink(0);
   -webkit-touch-callout: none;
   background-color: white;
   cursor: pointer;
@@ -51,6 +53,10 @@ button.audio-toggle {
   display: block;
   padding: 0;
   border: none;
+
+  &:focus {
+    outline: none;
+  }
 
   .fa {
     position: absolute;
