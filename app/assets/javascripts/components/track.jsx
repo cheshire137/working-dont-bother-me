@@ -7,6 +7,13 @@ class Track extends React.Component {
     }
   }
 
+  onSelect(event) {
+    event.currentTarget.blur()
+    if (this.props.onSelect) {
+      this.props.onSelect()
+    }
+  }
+
   toggleAudio(event) {
     event.currentTarget.blur()
     if (this.audioTag.paused) {
@@ -67,8 +74,44 @@ class Track extends React.Component {
     return <i className="fa fa-pause" aria-hidden="true" />
   }
 
+  trackInfo() {
+    const { name, artists } = this.props
+
+    if (this.props.onSelect) {
+      return (
+        <button
+          className="track-info"
+          type="button"
+          onClick={e => this.onSelect(e)}
+        >
+          <span className="track-name" title={name}>{name}</span>
+          <span className="artist-names">
+            {artists.map(artist => (
+              <span key={artist.id} className="artist-name">
+                {artist.name}
+              </span>
+            ))}
+          </span>
+        </button>
+      )
+    }
+
+    return (
+      <span className="track-info">
+        <span className="track-name" title={name}>{name}</span>
+        <span className="artist-names">
+          {artists.map(artist => (
+            <span key={artist.id} className="artist-name">
+              {artist.name}
+            </span>
+          ))}
+        </span>
+      </span>
+    )
+  }
+
   render() {
-    const { url, name, artists, image, audioUrl, allowedToPlay } = this.props
+    const { url, image, audioUrl, allowedToPlay } = this.props
 
     return (
       <span className="track-and-artists">
@@ -81,16 +124,7 @@ class Track extends React.Component {
           />
         ) : ''}
         {this.hasImage() ? this.image() : ''}
-        <span className="track-info">
-          <span className="track-name" title={name}>{name}</span>
-          <span className="artist-names">
-            {artists.map(artist => (
-              <span key={artist.id} className="artist-name">
-                {artist.name}
-              </span>
-            ))}
-          </span>
-        </span>
+        {this.trackInfo()}
       </span>
     )
   }
@@ -103,7 +137,8 @@ Track.propTypes = {
   audioUrl: PropTypes.string,
   onPlay: PropTypes.func,
   onPause: PropTypes.func,
-  allowedToPlay: PropTypes.bool
+  allowedToPlay: PropTypes.bool,
+  onSelect: PropTypes.func
 }
 
 export default Track

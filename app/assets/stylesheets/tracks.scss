@@ -23,6 +23,7 @@
     @include display-flex;
     @include flex-grow(1);
     width: 33%;
+    max-width: 33%;
 
     + li {
       margin-top: 0;
@@ -36,13 +37,8 @@
   color: #555;
 }
 
-.track-info {
-  @include flex-grow(1);
-  overflow: hidden;
-  padding-left: 10px;
-}
-
-button.audio-toggle {
+button.audio-toggle,
+button.track-info {
   @include appearance(none);
   @include user-select(none);
   @include flex-shrink(0);
@@ -54,15 +50,31 @@ button.audio-toggle {
   padding: 0;
   border: none;
 
+  &:focus {
+    outline: none;
+  }
+}
+
+button.track-info {
+  text-align: left;
+}
+
+.track-info,
+button.track-info {
+  padding-left: 10px;
+}
+
+.track-info {
+  @include flex-grow(1);
+  overflow: hidden;
+}
+
+button.audio-toggle {
   &:hover,
   &:focus {
     .fa {
       color: $white;
     }
-  }
-
-  &:focus {
-    outline: none;
   }
 
   .fa {

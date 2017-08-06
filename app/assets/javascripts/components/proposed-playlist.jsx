@@ -46,7 +46,10 @@ class ProposedPlaylist extends React.Component {
         <div className="columns">
           <div className="column is-10 is-offset-1">
             <p><strong>...here are some songs for you: </strong></p>
-            <TracksList tracks={tracks} />
+            <TracksList
+              tracks={tracks}
+              onSelect={track => this.onChangeSeed(track)}
+            />
           </div>
         </div>
       </div>

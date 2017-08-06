@@ -17,7 +17,7 @@ class TracksList extends React.Component {
   }
 
   render() {
-    const { tracks } = this.props
+    const { tracks, onSelect } = this.props
     const { playingTrackID } = this.state
 
     return (
@@ -35,6 +35,7 @@ class TracksList extends React.Component {
               allowedToPlay={typeof playingTrackID !== 'string' || playingTrackID === track.id}
               onPlay={() => this.stopOtherAudio(track.id)}
               onPause={() => this.allAudioStopped()}
+              onSelect={() => onSelect(track)}
             />
           </li>
         ))}
@@ -44,7 +45,8 @@ class TracksList extends React.Component {
 }
 
 TracksList.propTypes = {
-  tracks: PropTypes.array.isRequired
+  tracks: PropTypes.array.isRequired,
+  onSelect: PropTypes.func.isRequired
 }
 
 export default TracksList
