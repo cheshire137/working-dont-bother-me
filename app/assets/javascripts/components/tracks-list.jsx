@@ -8,6 +8,12 @@ class TracksList extends React.Component {
 
     return (
       <ul className="tracks-list">
+        {tracks.length < 1 ? (
+          <li>
+            <span>Could not find any similar songs that would be conducive to work.&nbsp;</span>
+            <i className="fa fa-frown-o" aria-hidden="true" />
+          </li>
+        ) : ''}
         {tracks.map(track => (
           <li key={track.id}>
             <Track {...track} />

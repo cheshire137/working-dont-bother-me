@@ -22,6 +22,23 @@ class SpotifyAPI
     [full_seed_track, track_info(*tracks)]
   end
 
+  def working_recommendations_for(seed_track)
+    seed_tracks = []
+    seed_tracks << seed_track if seed_track
+    features = working_features
+    min_features = working_feature_minimums
+    max_features = working_feature_maximums
+    recommendations(seed_tracks: seed_tracks, features: features, min_features: min_features,
+                    max_features: max_features)
+  end
+
+  # https://developer.spotify.com/web-api/search-item/
+  def search_tracks(query)
+    q = CGI.escape(query)
+    data = get("/search?q=#{q}&type=track")
+    track_info(*data['tracks']['items'])
+  end
+
   # https://developer.spotify.com/web-api/web-api-personalization-endpoints/get-recently-played/
   def recently_played(limit: 10)
     Rails.cache.fetch("user/#{@user.id}/recently_played", expires_in: 1.hour) do
@@ -145,13 +162,7 @@ class SpotifyAPI
   # recommended tracks from that seed.
   def seed_track_and_recommendations
     seed_track = sample_track
-    seed_tracks = []
-    seed_tracks << seed_track if seed_track
-    features = working_features
-    min_features = working_feature_minimums
-    max_features = working_feature_maximums
-    tracks = recommendations(seed_tracks: seed_tracks, features: features,
-                             min_features: min_features, max_features: max_features)
+    tracks = working_recommendations_for(seed_track)
     [seed_track, tracks]
   end
 

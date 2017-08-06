@@ -1,8 +1,22 @@
 class SpotifyController < ApplicationController
   before_action :require_login
 
+  def search_tracks
+    @tracks = api.search_tracks(params[:query])
+  end
+
   def generate_playlist
-    @seed_track, @tracks = api.working_recommendations
+    if (track_id = params[:seed_track_id]).present?
+      @seed_track = api.track_info('id' => track_id)[0]
+      @tracks = api.working_recommendations_for(@seed_track)
+      attempts = 1
+      while attempts < 5 && @tracks.empty?
+        @tracks = api.working_recommendations_for(@seed_track)
+        attempts += 1
+      end
+    else
+      @seed_track, @tracks = api.working_recommendations
+    end
   end
 
   def save_playlist

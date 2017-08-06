@@ -1,3 +1,9 @@
+.track-and-artists {
+  @include display-flex;
+  @include align-items(center);
+  @include flex-grow(1);
+}
+
 .track-image {
   display: inline-block;
   vertical-align: middle;
@@ -31,12 +37,16 @@
 }
 
 .track-link {
-  @include display-flex;
-  @include align-items(center);
+  display: block;
 }
 
 .track-info {
   @include flex-grow(1);
+  overflow: hidden;
+}
+
+.artist-names {
+  line-height: 1.33;
 }
 
 .artist-name {
@@ -50,4 +60,14 @@
 
 .artist-name + .artist-name:before {
   content: "\a0\b7\a0";
+}
+
+.track-name {
+  line-height: 1.5;
+  overflow: hidden;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  position: relative;
+  white-space: nowrap;
+  display: inline-block;
 }

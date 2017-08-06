@@ -6,13 +6,13 @@ import ProposedPlaylist from './proposed-playlist.jsx'
 class PlaylistPage extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = { seedIsDefault: true }
   }
 
   componentDidMount() {
     const api = new WorkingAPI()
     api.generatePlaylist().
-      then(tracks => this.onPlaylistGenerated(tracks)).
+      then(data => this.onPlaylistGenerated(data)).
       catch(err => this.onPlaylistGenerationError(err))
   }
 
@@ -24,9 +24,18 @@ class PlaylistPage extends React.Component {
     console.error('failed to generate a playlist', error)
   }
 
+  changeSeed(track) {
+    this.setState({ tracks: null, seedIsDefault: false }, () => {
+      const api = new WorkingAPI()
+      api.generatePlaylist(track.id).
+        then(data => this.onPlaylistGenerated(data)).
+        catch(err => this.onPlaylistGenerationError(err))
+    })
+  }
+
   render() {
-    const { tracks, seedTrack } = this.state
-    const tracksLoaded = typeof tracks !== 'undefined'
+    const { tracks, seedTrack, seedIsDefault } = this.state
+    const tracksLoaded = typeof tracks === 'object' && tracks
 
     return (
       <div>
@@ -37,6 +46,8 @@ class PlaylistPage extends React.Component {
               <ProposedPlaylist
                 tracks={tracks}
                 seedTrack={seedTrack}
+                seedIsDefault={seedIsDefault}
+                onChangeSeed={newTrack => this.changeSeed(newTrack)}
               />
             ) : (
               <h2

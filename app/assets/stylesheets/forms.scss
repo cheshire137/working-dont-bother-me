@@ -8,3 +8,11 @@
 .button.is-spotify:focus {
   background-color: #5bbe63;
 }
+
+.button.track-button {
+  height: auto;
+  padding-top: 0.75em;
+  padding-bottom: 0.75em;
+  width: 100%;
+  text-align: left;
+}
