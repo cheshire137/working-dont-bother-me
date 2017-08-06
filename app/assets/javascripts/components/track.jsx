@@ -39,6 +39,8 @@ class Track extends React.Component {
 
   image() {
     const { image } = this.props
+    const trackIsSelectable = typeof this.props.onSelect === 'function'
+    const imageClass = `track-image ${trackIsSelectable ? 'selectable' : ''}`
 
     const imageTag = (
       <img
@@ -46,7 +48,7 @@ class Track extends React.Component {
         width={image.width}
         height={image.height}
         alt=""
-        className="track-image"
+        className={imageClass}
       />
     )
 
@@ -54,7 +56,7 @@ class Track extends React.Component {
       return (
         <button
           type="button"
-          className="audio-toggle"
+          className={`audio-toggle ${trackIsSelectable ? 'selectable' : ''}`}
           style={{ width: image.width }}
           onClick={e => this.toggleAudio(e)}
         >
@@ -111,10 +113,11 @@ class Track extends React.Component {
   }
 
   render() {
-    const { url, image, audioUrl, allowedToPlay } = this.props
+    const { url, image, audioUrl, allowedToPlay, onSelect } = this.props
+    const trackIsSelectable = typeof onSelect === 'function'
 
     return (
-      <span className="track-and-artists">
+      <span className={`track-and-artists ${trackIsSelectable ? 'selectable' : ''}`}>
         {this.includeAudio() ? (
           <audio
             preload="metadata"

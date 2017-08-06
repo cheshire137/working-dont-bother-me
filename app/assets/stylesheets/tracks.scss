@@ -3,12 +3,27 @@
   @include align-items(center);
   @include flex-grow(1);
   overflow: hidden;
+
+  &.selectable {
+    border: 1px solid #ddd;
+  }
 }
 
 .track-image {
   display: inline-block;
   vertical-align: middle;
-  border-radius: 0.2em;
+}
+
+button.audio-toggle,
+.track-image,
+.track-and-artists {
+  border-radius: 3px;
+}
+
+button.audio-toggle.selectable,
+.track-image.selectable {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .content ul.tracks-list {
@@ -32,7 +47,6 @@
 }
 
 .artist-names {
-  display: block;
   font-size: 0.85rem;
   color: #555;
 }
@@ -57,16 +71,29 @@ button.track-info {
 
 button.track-info {
   text-align: left;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  @include display-flex;
+  @include flex-shrink(1);
+  @include flex-direction(column);
+  @include justify-content(center);
+
+  &:hover,
+  &:focus {
+    background-color: $yellow;
+  }
 }
 
 .track-info,
 button.track-info {
   padding-left: 10px;
+  padding-right: 10px;
 }
 
 .track-info {
   @include flex-grow(1);
   overflow: hidden;
+  height: 100%;
 }
 
 button.audio-toggle {
@@ -81,7 +108,7 @@ button.audio-toggle {
     position: absolute;
     left: 50%;
     top: 50%;
-    margin-top: -12px;
+    margin-top: -10px;
     text-shadow: 0 0 1px #111;
     color: rgba(255, 255, 255, 0.8);
     @include transition-property(color);
@@ -115,12 +142,23 @@ button.audio-toggle {
   content: "\a0\b7\a0";
 }
 
+.selectable {
+  .artist-names,
+  .track-name {
+    width: 214px;
+  }
+}
+
+.artist-names,
 .track-name {
-  line-height: 1.5;
-  overflow: hidden;
-  max-width: 100%;
-  text-overflow: ellipsis;
-  position: relative;
+  width: 100%;
   white-space: nowrap;
-  display: inline-block;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.track-name {
+  line-height: 1.33;
+  font-size: 1rem;
 }
