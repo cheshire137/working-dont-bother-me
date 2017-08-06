@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import onClickOutside from 'react-onclickoutside'
 
 import LocalStorage from '../models/local-storage'
 import WorkingAPI from '../models/working-api'
@@ -41,6 +42,12 @@ class SeedSelection extends React.Component {
     event.currentTarget.blur()
     this.setState({ expanded: false })
     this.props.onChange(track)
+  }
+
+  handleClickOutside() {
+    if (this.state.expanded) {
+      this.setState({ expanded: false })
+    }
   }
 
   searchForTrack(query) {
@@ -125,4 +132,4 @@ SeedSelection.propTypes = {
   onChange: PropTypes.func.isRequired
 }
 
-export default SeedSelection
+export default process.env.NODE_ENV === 'test' ? SeedSelection : onClickOutside(SeedSelection)
