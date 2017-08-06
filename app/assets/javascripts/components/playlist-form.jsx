@@ -38,6 +38,7 @@ class PlaylistForm extends React.Component {
 
   render() {
     const { hasPlaylist, playlist, newPlaylist, isSaving } = this.state
+    const { disabled } = this.props
     const playlistSaved = typeof playlist !== 'undefined'
 
     return (
@@ -46,7 +47,7 @@ class PlaylistForm extends React.Component {
           <button
             type="submit"
             className="button is-primary is-large is-spotify"
-            disabled={isSaving}
+            disabled={isSaving || disabled}
           >
             {hasPlaylist ? 'Update' : 'Create'} Playlist
           </button>
@@ -77,7 +78,8 @@ class PlaylistForm extends React.Component {
 }
 
 PlaylistForm.propTypes = {
-  tracks: PropTypes.array.isRequired
+  tracks: PropTypes.array.isRequired,
+  disabled: PropTypes.bool
 }
 
 export default PlaylistForm

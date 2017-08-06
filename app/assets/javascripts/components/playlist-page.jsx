@@ -27,13 +27,13 @@ class PlaylistPage extends React.Component {
   }
 
   changeSeed(track) {
-    this.setState({ tracks: null, seedIsDefault: false }, () => {
+    this.setState({ seedIsDefault: false }, () => {
       this.generatePlaylist(track.id)
     })
   }
 
   generatePlaylist(trackID) {
-    this.setState({ isGenerating: true }, () => {
+    this.setState({ isGenerating: true, tracks: null }, () => {
       const api = new WorkingAPI()
       api.generatePlaylist(trackID).
         then(data => this.onPlaylistGenerated(data)).
@@ -56,7 +56,7 @@ class PlaylistPage extends React.Component {
                 seedTrack={seedTrack}
                 seedIsDefault={seedIsDefault}
                 onChangeSeed={newTrack => this.changeSeed(newTrack)}
-                generatePlaylist={() => this.generatePlaylist()}
+                generatePlaylist={() => this.generatePlaylist(seedTrack.id)}
                 allowGeneration={!isGenerating}
               />
             ) : (
