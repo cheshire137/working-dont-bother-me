@@ -38,7 +38,9 @@ class SpotifyAPI
   def search_tracks(query)
     q = CGI.escape(query)
     data = get("/search?q=#{q}&type=track")
-    track_info(*data['tracks']['items'])
+    basic_tracks = data['tracks']['items']
+    return basic_tracks if basic_tracks.empty?
+    track_info(*basic_tracks)
   end
 
   # https://developer.spotify.com/web-api/web-api-personalization-endpoints/get-recently-played/
