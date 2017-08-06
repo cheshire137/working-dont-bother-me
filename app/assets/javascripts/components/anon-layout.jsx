@@ -6,16 +6,16 @@ const AnonLayout = function(props) {
   return (
     <div className="layout-container">
       <div className="layout-children-container">
-        <div className="container">
-          <nav className="nav">
+        <nav className="nav">
+          <div className="container">
             <div className="nav-left">
               <a
                 className="nav-item is-brand"
                 href="/"
               >Working, Don't Bother Me</a>
             </div>
-          </nav>
-        </div>
+          </div>
+        </nav>
         {props.children}
       </div>
       <Footer />

@@ -42,7 +42,6 @@ class PlaylistForm extends React.Component {
 
     return (
       <div className="box has-text-centered">
-        <p><strong>Like the looks of it?</strong></p>
         <form onSubmit={e => this.savePlaylist(e)}>
           <button
             type="submit"

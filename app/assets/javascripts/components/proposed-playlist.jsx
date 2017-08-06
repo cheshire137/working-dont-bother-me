@@ -19,8 +19,13 @@ class ProposedPlaylist extends React.Component {
     })
   }
 
+  generatePlaylist(event) {
+    event.currentTarget.blur()
+    this.props.generatePlaylist()
+  }
+
   render() {
-    const { seedTrack, tracks, seedIsDefault } = this.props
+    const { seedTrack, tracks, seedIsDefault, allowGeneration } = this.props
 
     return (
       <div className="content">
@@ -45,7 +50,19 @@ class ProposedPlaylist extends React.Component {
         </div>
         <div className="columns">
           <div className="column is-10 is-offset-1">
-            <p><strong>...here are some songs for you: </strong></p>
+            <div className="columns">
+              <div className="column">
+                <p><strong>...here are some songs for you: </strong></p>
+              </div>
+              <div className="column has-text-right">
+                <button
+                  type="button"
+                  disabled={!allowGeneration}
+                  className="button is-transparent"
+                  onClick={e => this.generatePlaylist(e)}
+                ><i className="fa fa-refresh" aria-hidden="true" /></button>
+              </div>
+            </div>
             <TracksList
               tracks={tracks}
               onSelect={track => this.onChangeSeed(track)}
@@ -61,7 +78,9 @@ ProposedPlaylist.propTypes = {
   tracks: PropTypes.array.isRequired,
   seedTrack: PropTypes.object.isRequired,
   onChangeSeed: PropTypes.func.isRequired,
-  seedIsDefault: PropTypes.bool
+  seedIsDefault: PropTypes.bool,
+  generatePlaylist: PropTypes.func.isRequired,
+  allowGeneration: PropTypes.bool
 }
 
 export default ProposedPlaylist
