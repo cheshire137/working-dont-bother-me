@@ -1,0 +1,35 @@
+.nav {
+  background-color: $purple;
+}
+
+.nav-item a:not(.button),
+a.nav-item:not(.button),
+.nav .button {
+  color: $white;
+}
+
+.nav-item:not(.button) {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.nav-item a:not(.button),
+a.nav-item:not(.button) {
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+    color: $white;
+  }
+}
+
+.nav .button {
+  background-color: transparent;
+  border-color: rgba(255, 255, 255, 0.3);
+  @include transition-property(border-color);
+  @include transition-duration(0.2s);
+  @include transition-timing-function(ease-in-out);
+
+  &:hover,
+  &:focus {
+    border-color: $white;
+  }
+}

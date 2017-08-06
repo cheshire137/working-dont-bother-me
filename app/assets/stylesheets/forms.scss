@@ -1,12 +1,15 @@
 .button.is-spotify {
-  background-color: #57b660;
-  color: #fff;
+  background-color: $spotify;
+  color: $white;
   border-color: transparent;
+  @include transition-property(background-color);
+  @include transition-duration(0.2s);
+  @include transition-timing-function(ease-in-out);
 }
 
 .button.is-spotify:hover,
 .button.is-spotify:focus {
-  background-color: #5bbe63;
+  background-color: $spotify-light;
 }
 
 .button.track-button {

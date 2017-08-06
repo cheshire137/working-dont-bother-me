@@ -54,6 +54,13 @@ button.audio-toggle {
   padding: 0;
   border: none;
 
+  &:hover,
+  &:focus {
+    .fa {
+      color: $white;
+    }
+  }
+
   &:focus {
     outline: none;
   }
@@ -64,7 +71,10 @@ button.audio-toggle {
     top: 50%;
     margin-top: -12px;
     text-shadow: 0 0 1px #111;
-    color: #fff;
+    color: rgba(255, 255, 255, 0.8);
+    @include transition-property(color);
+    @include transition-duration(0.2s);
+    @include transition-timing-function(ease-in-out);
 
     &.fa-play {
       margin-left: -8px;

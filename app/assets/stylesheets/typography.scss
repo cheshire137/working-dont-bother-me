@@ -1,9 +1,29 @@
+a,
+a:link,
+a:visited {
+  color: $pink;
+  text-decoration: none;
+  @include transition-property(color);
+  @include transition-duration(0.2s);
+  @include transition-timing-function(ease-in-out);
+}
+
+a:hover,
+a:focus,
+a:active {
+  color: $purple;
+}
+
 .help {
   margin-top: 1rem;
 }
 
 .help.is-success {
   font-size: 1.5rem;
+}
+
+.footer {
+  font-size: 0.85rem;
 }
 
 .footer a + a {

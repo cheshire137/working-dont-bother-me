@@ -8,8 +8,8 @@ const Header = function(props) {
   const authenticityToken = LocalStorage.get('authenticity-token')
 
   return (
-    <div className="container">
-      <nav className="nav">
+    <nav className="nav">
+      <div className="container">
         <div className="nav-left">
           <a
             className="nav-item is-brand"
@@ -28,14 +28,14 @@ const Header = function(props) {
             <input name="_method" type="hidden" value="delete" />
             <input name="authenticity_token" type="hidden" value={authenticityToken} />
             <button
-              className="button is-white"
+              className="button"
               type="submit"
               onClick={() => LocalStorage.delete('email')}
             >Sign out</button>
           </form>
         </div>
-      </nav>
-    </div>
+      </div>
+    </nav>
   )
 }
 
