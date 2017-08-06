@@ -26,7 +26,7 @@ class ProposedPlaylist extends React.Component {
     return (
       <div className="content">
         <div className="columns">
-          <div className="column is-4 is-offset-2">
+          <div className="column is-5 is-offset-1">
             <p><strong>Based on: </strong></p>
             <SeedSelection
               seedTrack={seedTrack}
@@ -38,7 +38,7 @@ class ProposedPlaylist extends React.Component {
               </p>
             ) : ''}
           </div>
-          <div className="column is-4">
+          <div className="column is-5">
             {tracks.length > 0 ? (
               <PlaylistForm
                 playlist={playlist}
@@ -48,7 +48,7 @@ class ProposedPlaylist extends React.Component {
           </div>
         </div>
         <div className="columns">
-          <div className="column is-8 is-offset-2">
+          <div className="column is-10 is-offset-1">
             <p><strong>...here are some songs for you: </strong></p>
             <TracksList tracks={tracks} />
           </div>

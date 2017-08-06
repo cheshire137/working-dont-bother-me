@@ -3,7 +3,6 @@ json.tracks do
     json.id track['id']
     json.name track['name']
     json.uri track['uri']
-    json.url track['external_urls']['spotify']
     if image = small_image(track['album']['images'])
       json.image do
         json.url image['url']
