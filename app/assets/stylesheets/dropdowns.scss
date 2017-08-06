@@ -58,14 +58,10 @@
 }
 
 button.dropdown-item {
-  -moz-appearance: none;
-  -webkit-appearance: none;
+  @include appearance(none);
+  @include user-select(none);
   border: 1px solid transparent;
   -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
   width: 100%;
   background-color: white;
   cursor: pointer;

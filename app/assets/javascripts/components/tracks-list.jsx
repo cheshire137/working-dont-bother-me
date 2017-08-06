@@ -3,8 +3,22 @@ import PropTypes from 'prop-types'
 import Track from './track.jsx'
 
 class TracksList extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {}
+  }
+
+  allAudioStopped() {
+    this.setState({ playingTrackID: null })
+  }
+
+  stopOtherAudio(trackID) {
+    this.setState({ playingTrackID: trackID })
+  }
+
   render() {
     const { tracks } = this.props
+    const { playingTrackID } = this.state
 
     return (
       <ul className="tracks-list">
@@ -16,7 +30,12 @@ class TracksList extends React.Component {
         ) : ''}
         {tracks.map(track => (
           <li key={track.id}>
-            <Track {...track} />
+            <Track
+              {...track}
+              allowedToPlay={typeof playingTrackID !== 'string' || playingTrackID === track.id}
+              onPlay={() => this.stopOtherAudio(track.id)}
+              onPause={() => this.allAudioStopped()}
+            />
           </li>
         ))}
       </ul>

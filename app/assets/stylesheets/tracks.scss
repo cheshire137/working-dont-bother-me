@@ -41,6 +41,15 @@
   overflow: hidden;
 }
 
+button.audio-toggle {
+  @include appearance(none);
+  @include user-select(none);
+  border: 1px solid transparent;
+  -webkit-touch-callout: none;
+  background-color: white;
+  cursor: pointer;
+}
+
 .artist-names {
   line-height: 1.33;
 }

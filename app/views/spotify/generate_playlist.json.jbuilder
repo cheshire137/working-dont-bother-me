@@ -3,6 +3,7 @@ json.tracks do
     json.id track['id']
     json.name track['name']
     json.uri track['uri']
+    json.audioUrl track['preview_url']
     if image = small_image(track['album']['images'])
       json.image do
         json.url image['url']
