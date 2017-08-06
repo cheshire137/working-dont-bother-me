@@ -28,7 +28,9 @@ class SeedSelection extends React.Component {
   }
 
   onSearchResults(tracks) {
-    this.setState({ expanded: true, tracks })
+    this.setState({ expanded: true, tracks }, () => {
+      this.searchInput.focus()
+    })
   }
 
   onSearchError(error) {
@@ -49,7 +51,11 @@ class SeedSelection extends React.Component {
 
   toggle(event) {
     event.currentTarget.blur()
-    this.setState({ expanded: !this.state.expanded })
+    this.setState({ expanded: !this.state.expanded }, () => {
+      if (this.state.expanded) {
+        this.searchInput.focus()
+      }
+    })
   }
 
   dropdownContent() {
@@ -65,7 +71,7 @@ class SeedSelection extends React.Component {
           onKeyDown={e => this.onKeyDown(e)}
           onChange={e => this.onChange(e)}
           value={query}
-          autoFocus
+          ref={input => this.searchInput = input}
         />
         {haveResults ? (
           <div>
