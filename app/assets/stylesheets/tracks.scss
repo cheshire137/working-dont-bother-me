@@ -38,6 +38,10 @@
 
 .track-link {
   display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
 }
 
 .track-info {
