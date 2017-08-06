@@ -9,6 +9,8 @@ from my manually curated
 [Workin' Don't Bother Me](https://open.spotify.com/user/cheshire137/playlist/48qLKsZUHuMTiV8whluf4j)
 playlist on Spotify.
 
+![Screenshot](https://raw.githubusercontent.com/cheshire137/working-dont-bother-me/master/screenshot.png)
+
 ## How to Develop
 
 Create a [Spotify app](https://developer.spotify.com/my-applications/#!/applications/create).
