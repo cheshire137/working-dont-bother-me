@@ -14,9 +14,11 @@ class SpotifyAPI
 
   # Returns a seed track and a list of recommended tracks that should be good to work to.
   def working_recommendations
-    seed_track, tracks = seed_track_and_recommendations
+    seed_track = sample_track
+    tracks = working_recommendations_for(seed_track)
     while tracks.empty?
-      seed_track, tracks = seed_track_and_recommendations
+      seed_track = sample_track
+      tracks = working_recommendations_for(seed_track)
     end
     full_seed_track = track_info(seed_track)[0]
     [full_seed_track, track_info(*tracks)]
@@ -157,14 +159,6 @@ class SpotifyAPI
   end
 
   private
-
-  # Returns a track that was used as a seed for recommendations, as well as a list of
-  # recommended tracks from that seed.
-  def seed_track_and_recommendations
-    seed_track = sample_track
-    tracks = working_recommendations_for(seed_track)
-    [seed_track, tracks]
-  end
 
   # Returns a Spotify audio feature within the given numeric range, formatted
   # to the precision the Spotify API expects.
