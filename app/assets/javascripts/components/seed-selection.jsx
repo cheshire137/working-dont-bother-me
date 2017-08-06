@@ -10,7 +10,7 @@ import TracksList from './tracks-list.jsx'
 class SeedSelection extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { expanded: false, query: '' }
+    this.state = { expanded: false, query: '', isSearching: false }
   }
 
   onChange(event) {
@@ -29,13 +29,14 @@ class SeedSelection extends React.Component {
   }
 
   onSearchResults(tracks) {
-    this.setState({ expanded: true, tracks }, () => {
+    this.setState({ expanded: true, tracks, isSearching: false }, () => {
       this.searchInput.focus()
     })
   }
 
   onSearchError(error) {
     console.error('failed to search tracks', error)
+    this.setState({ isSearching: false })
   }
 
   chooseSeed(event, track) {
@@ -51,9 +52,16 @@ class SeedSelection extends React.Component {
   }
 
   searchForTrack(query) {
-    const api = new WorkingAPI()
-    api.searchTracks(query).then(tracks => this.onSearchResults(tracks)).
-      catch(err => this.onSearchError(err))
+    this.setState({ isSearching: true }, () => {
+      const api = new WorkingAPI()
+      api.searchTracks(query).then(tracks => this.onSearchResults(tracks)).
+        catch(err => this.onSearchError(err))
+    })
+  }
+
+  submitSearch(event) {
+    event.currentTarget.blur()
+    this.searchForTrack(this.state.query)
   }
 
   toggle(event) {
@@ -66,20 +74,40 @@ class SeedSelection extends React.Component {
   }
 
   dropdownContent() {
-    const { query, tracks } = this.state
+    const { query, tracks, isSearching } = this.state
     const haveResults = tracks && tracks.length > 0
+    const haveQuery = typeof query === 'string' && query.trim().length > 0
 
     return (
       <div className="dropdown-content">
-        <input
-          type="text"
-          placeholder="Search for a song"
-          className="input"
-          onKeyDown={e => this.onKeyDown(e)}
-          onChange={e => this.onChange(e)}
-          value={query}
-          ref={input => this.searchInput = input}
-        />
+        <div className="field has-addons">
+          <div className="control is-expanded has-icons-left">
+            <input
+              type="text"
+              placeholder="Search for a song"
+              className="input"
+              onKeyDown={e => this.onKeyDown(e)}
+              onChange={e => this.onChange(e)}
+              value={query}
+              disabled={isSearching}
+              ref={input => this.searchInput = input}
+            />
+            <span className="icon is-left">
+              <i
+                className={`fa ${isSearching ? 'fa-spin fa-refresh' : 'fa-search'}`}
+                aria-hidden="true"
+              />
+            </span>
+          </div>
+          <div className="control">
+            <button
+              type="button"
+              className="button is-primary"
+              onClick={e => this.submitSearch(e)}
+              disabled={!haveQuery || isSearching}
+            >Search</button>
+          </div>
+        </div>
         {haveResults ? (
           <div>
             {tracks.map(track => (
