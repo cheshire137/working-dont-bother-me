@@ -47,6 +47,5 @@ heroku config:set SPOTIFY_CLIENT_ID=your_client_id_here
 heroku config:set SPOTIFY_CLIENT_SECRET=your_client_secret_here
 git push heroku master
 heroku run rake db:migrate
-heroku run rake db:seed
 heroku open
 ```
