@@ -1,6 +1,12 @@
 import PropTypes from 'prop-types'
 
 class Track extends React.Component {
+  onAudioEnded() {
+    if (this.props.onPause) {
+      this.props.onPause()
+    }
+  }
+
   toggleAudio(event) {
     event.currentTarget.blur()
     if (this.audioTag.paused) {
@@ -42,12 +48,23 @@ class Track extends React.Component {
         <button
           type="button"
           className="audio-toggle"
+          style={{ width: image.width }}
           onClick={e => this.toggleAudio(e)}
-        >{imageTag}</button>
+        >
+          {imageTag}
+          {this.statusIcon()}
+        </button>
       )
     }
 
     return imageTag
+  }
+
+  statusIcon() {
+    if (!this.audioTag || this.audioTag.paused) {
+      return <i className="fa fa-play" aria-hidden="true" />
+    }
+    return <i className="fa fa-pause" aria-hidden="true" />
   }
 
   render() {
@@ -59,6 +76,7 @@ class Track extends React.Component {
           <audio
             preload="metadata"
             src={audioUrl}
+            onEnded={() => this.onAudioEnded()}
             ref={audioTag => this.audioTag = audioTag}
           />
         ) : ''}

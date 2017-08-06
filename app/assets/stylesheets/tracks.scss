@@ -7,7 +7,6 @@
 .track-image {
   display: inline-block;
   vertical-align: middle;
-  margin-right: 10px;
   border-radius: 0.2em;
 }
 
@@ -39,15 +38,36 @@
 .track-info {
   @include flex-grow(1);
   overflow: hidden;
+  padding-left: 10px;
 }
 
 button.audio-toggle {
   @include appearance(none);
   @include user-select(none);
-  border: 1px solid transparent;
   -webkit-touch-callout: none;
   background-color: white;
   cursor: pointer;
+  position: relative;
+  display: block;
+  padding: 0;
+  border: none;
+
+  .fa {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -12px;
+    text-shadow: 0 0 1px #111;
+    color: #fff;
+
+    &.fa-play {
+      margin-left: -8px;
+    }
+
+    &.fa-pause {
+      margin-left: -10px;
+    }
+  }
 }
 
 .artist-names {
