@@ -32,8 +32,7 @@ class PlaylistForm extends React.Component {
   }
 
   render() {
-    const { hasPlaylist } = this.state
-    const { playlist, newPlaylist } = this.props
+    const { hasPlaylist, playlist, newPlaylist } = this.state
     const playlistSaved = typeof playlist !== 'undefined'
 
     return (
@@ -70,8 +69,6 @@ class PlaylistForm extends React.Component {
 }
 
 PlaylistForm.propTypes = {
-  playlist: PropTypes.object,
-  newPlaylist: PropTypes.bool,
   tracks: PropTypes.array.isRequired
 }
 

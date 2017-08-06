@@ -21,7 +21,6 @@ class ProposedPlaylist extends React.Component {
 
   render() {
     const { seedTrack, tracks, seedIsDefault } = this.props
-    const { playlist, newPlaylist } = this.state
 
     return (
       <div className="content">
@@ -40,11 +39,7 @@ class ProposedPlaylist extends React.Component {
           </div>
           <div className="column is-5">
             {tracks.length > 0 ? (
-              <PlaylistForm
-                playlist={playlist}
-                newPlaylist={newPlaylist}
-                tracks={tracks}
-              />
+              <PlaylistForm tracks={tracks} />
             ) : ''}
           </div>
         </div>
