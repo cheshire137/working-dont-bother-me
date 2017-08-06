@@ -43,13 +43,14 @@ class PlaylistForm extends React.Component {
 
     return (
       <div className="box has-text-centered">
+        <p><strong>Like the look of this playlist?</strong></p>
         <form onSubmit={e => this.savePlaylist(e)}>
           <button
             type="submit"
             className="button is-primary is-large is-spotify"
             disabled={isSaving || disabled}
           >
-            {hasPlaylist ? 'Update' : 'Create'} Playlist
+            {hasPlaylist ? 'Save' : 'Create'} Playlist
           </button>
           {playlistSaved ? (
             <p className="help is-success">

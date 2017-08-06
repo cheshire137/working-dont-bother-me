@@ -61,7 +61,7 @@ class ProposedPlaylist extends React.Component {
                 <button
                   type="button"
                   disabled={!allowGeneration}
-                  className="button is-transparent"
+                  className="is-small button is-transparent"
                   onClick={e => this.generatePlaylist(e)}
                 ><i className={`fa fa-refresh ${allowGeneration ? '' : 'fa-spin'}`} aria-hidden="true" /></button>
               </div>
