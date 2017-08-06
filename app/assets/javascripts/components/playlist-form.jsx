@@ -71,7 +71,8 @@ class PlaylistForm extends React.Component {
 
 PlaylistForm.propTypes = {
   playlist: PropTypes.object,
-  newPlaylist: PropTypes.bool
+  newPlaylist: PropTypes.bool,
+  tracks: PropTypes.array.isRequired
 }
 
 export default PlaylistForm

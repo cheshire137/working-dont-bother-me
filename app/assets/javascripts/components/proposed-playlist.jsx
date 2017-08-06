@@ -43,6 +43,7 @@ class ProposedPlaylist extends React.Component {
               <PlaylistForm
                 playlist={playlist}
                 newPlaylist={newPlaylist}
+                tracks={tracks}
               />
             ) : ''}
           </div>
