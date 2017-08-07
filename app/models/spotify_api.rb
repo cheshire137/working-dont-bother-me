@@ -86,7 +86,7 @@ class SpotifyAPI
   def working_features
     {
       # "1.0 represents high confidence the track is acoustic"
-      acousticness: feature_in_range(0.0, 1.0),
+      acousticness: feature_in_range(0.1, 1.0),
 
       # "death metal has high energy, while a Bach prelude scores low on the scale"
       energy: feature_in_range(0.0, 0.5),
