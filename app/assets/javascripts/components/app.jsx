@@ -11,12 +11,10 @@ import LocalStorage from '../models/local-storage'
 
 function setUser(json) {
   LocalStorage.set('email', json.email)
-  LocalStorage.set('hasPlaylist', json.hasPlaylist)
 }
 
 function forgetUser() {
   LocalStorage.delete('email')
-  LocalStorage.delete('hasPlaylist')
 }
 
 function requireAuth(nextState, replace, callback) {

@@ -6,10 +6,7 @@ import WorkingAPI from '../models/working-api'
 class PlaylistForm extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      hasPlaylist: LocalStorage.get('hasPlaylist'),
-      isSaving: false
-    }
+    this.state = { isSaving: false }
   }
 
   savePlaylist(event) {
@@ -23,12 +20,7 @@ class PlaylistForm extends React.Component {
   }
 
   onPlaylistSaved(data) {
-    this.setState({
-      playlist: data.playlist,
-      newPlaylist: !data.hadPlaylist,
-      hasPlaylist: true,
-      isSaving: false
-    })
+    this.setState({ playlist: data.playlist, isSaving: false })
   }
 
   onPlaylistError(error) {
@@ -37,7 +29,7 @@ class PlaylistForm extends React.Component {
   }
 
   render() {
-    const { hasPlaylist, playlist, newPlaylist, isSaving } = this.state
+    const { playlist, isSaving } = this.state
     const { disabled } = this.props
     const playlistSaved = typeof playlist !== 'undefined'
 
@@ -49,13 +41,10 @@ class PlaylistForm extends React.Component {
             type="submit"
             className="button is-primary is-large is-spotify"
             disabled={isSaving || disabled}
-          >
-            {hasPlaylist ? 'Save' : 'Create'} Playlist
-          </button>
+          >Create Playlist</button>
           {playlistSaved ? (
             <p className="help is-success">
-              <span>Your playlist has been </span>
-              <span>{newPlaylist ? 'created' : 'updated'}!</span>
+              <span>Your playlist has been created!</span>
               <br />
               <a
                 href={playlist.url}
@@ -65,11 +54,7 @@ class PlaylistForm extends React.Component {
             </p>
           ) : (
             <p className="help">
-              {hasPlaylist ? (
-                <span>Your existing &ldquo;Working, Don't Bother Me&rdquo; playlist will be updated.</span>
-              ) : (
-                <span>A new playlist will be created in your Spotify with these songs.</span>
-              )}
+              <span>A new playlist will be created in your Spotify with these songs.</span>
             </p>
           )}
         </form>

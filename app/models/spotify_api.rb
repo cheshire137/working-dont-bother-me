@@ -127,15 +127,17 @@ class SpotifyAPI
   end
 
   # https://developer.spotify.com/web-api/get-playlist/
-  def get_playlist
-    get("/users/#{@user.uid}/playlists/#{@user.playlist_id}")
+  def get_playlist(playlist_id)
+    get("/users/#{@user.uid}/playlists/#{playlist_id}")
   end
 
   # https://developer.spotify.com/web-api/create-playlist/
   def create_playlist
     url = "/#{API_VERSION}/users/#{@user.uid}/playlists"
     headers = default_headers('Content-Type' => 'application/json')
-    body = { name: PLAYLIST_NAME, description: PLAYLIST_DESCRIPTION }
+    timestamp = Time.zone.now.strftime("%-d %b %Y")
+    name = "#{PLAYLIST_NAME} (#{timestamp})"
+    body = { name: name, description: PLAYLIST_DESCRIPTION }
     Rails.logger.info "POST #{BASE_URI}#{url}"
     data = self.class.post(url, headers: headers, body: body.to_json).parsed_response
     raise SpotifyError, data['error']['message'] if data['error']
