@@ -4,9 +4,7 @@ class SpotifyController < ApplicationController
   def search_tracks
     @tracks = api.search_tracks(params[:query])
   rescue SpotifyError => error
-    Rails.logger.error error.message
-    Rails.logger.error error.backtrace.join("\n")
-    render json: { error: error.message }, status: :failed_dependency
+    handle_exception error
   end
 
   def generate_playlist
@@ -22,9 +20,7 @@ class SpotifyController < ApplicationController
       @seed_track, @tracks = api.working_recommendations
     end
   rescue SpotifyError => error
-    Rails.logger.error error.message
-    Rails.logger.error error.backtrace.join("\n")
-    render json: { error: error.message }, status: :failed_dependency
+    handle_exception error
   end
 
   def save_playlist
@@ -40,12 +36,16 @@ class SpotifyController < ApplicationController
     current_user.save
     api.replace_playlist_tracks(current_user.playlist_id, track_uris)
   rescue SpotifyError => error
+    handle_exception error
+  end
+
+  private
+
+  def handle_exception(error)
     Rails.logger.error error.message
     Rails.logger.error error.backtrace.join("\n")
     render json: { error: error.message }, status: :failed_dependency
   end
-
-  private
 
   def api
     @api ||= current_user.spotify_api
