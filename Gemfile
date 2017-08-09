@@ -32,7 +32,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'react-rails', '~> 2.2.0'
 gem 'devise', '~> 4.3.0'
 gem 'omniauth-oauth2', '~> 1.4.0'
-gem 'omniauth-spotify', '~> 0.0.13'
+gem 'omniauth-spotify-oauth2', '~> 1.0.1'
 
 group :development, :test do
   gem 'factory_girl_rails', '~> 4.8.0'
