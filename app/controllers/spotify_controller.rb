@@ -3,6 +3,8 @@ class SpotifyController < ApplicationController
 
   def search_tracks
     @tracks = api.search_tracks(params[:query])
+  rescue SpotifyError => error
+    render json: error, status: :failed_dependency
   end
 
   def generate_playlist
@@ -17,6 +19,8 @@ class SpotifyController < ApplicationController
     else
       @seed_track, @tracks = api.working_recommendations
     end
+  rescue SpotifyError => error
+    render json: error, status: :failed_dependency
   end
 
   def save_playlist
@@ -31,6 +35,8 @@ class SpotifyController < ApplicationController
     current_user.playlist_id = @playlist['id']
     current_user.save
     api.replace_playlist_tracks(current_user.playlist_id, track_uris)
+  rescue SpotifyError => error
+    render json: error, status: :failed_dependency
   end
 
   private
