@@ -6,6 +6,39 @@ class SpotifyAPI
   PLAYLIST_NAME = "Working, Don't Bother Me"
   PLAYLIST_DESCRIPTION = 'Peaceful, ambient, and atmospheric tracks to work to.'
 
+  # Returns a Spotify audio feature within the given numeric range, formatted
+  # to the precision the Spotify API expects.
+  def self.feature_in_range(min, max)
+    '%0.2f' % rand(min..max)
+  end
+
+  FEATURE_MINIMUMS = {
+    # "Values above 0.5 are intended to represent instrumental tracks"
+    instrumentalness: 0.8
+  }.freeze
+
+  FEATURE_MAXIMUMS = {
+    # "death metal has high energy, while a Bach prelude scores low on the scale"
+    energy: 0.5,
+
+    # "Values above 0.66 describe tracks that are probably made entirely of spoken words"
+    speechiness: 0.3
+  }.freeze
+
+  FEATURE_TARGETS = {
+    # "1.0 represents high confidence the track is acoustic"
+    acousticness: feature_in_range(0.1, 1.0),
+
+    # "death metal has high energy, while a Bach prelude scores low on the scale"
+    energy: feature_in_range(0.0, 0.5),
+
+    # "Values above 0.5 are intended to represent instrumental tracks"
+    instrumentalness: feature_in_range(0.8, 1.0),
+
+    # "Values above 0.66 describe tracks that are probably made entirely of spoken words"
+    speechiness: feature_in_range(0.0, 0.3)
+  }.freeze
+
   base_uri BASE_URI
 
   def initialize(user)
@@ -29,14 +62,12 @@ class SpotifyAPI
     [full_seed_tracks, track_info(*tracks)]
   end
 
-  def working_recommendations_for(seed_track)
+  def working_recommendations_for(seed_track, features: nil, min_features: nil, max_features: nil)
     seed_tracks = [seed_track].compact
     return [] if seed_tracks.empty?
-    features = working_features
-    min_features = working_feature_minimums
-    max_features = working_feature_maximums
-    recommendations(seed_tracks: seed_tracks, features: features, min_features: min_features,
-                    max_features: max_features)
+    recommendations(seed_tracks: seed_tracks, features: features || FEATURE_TARGETS,
+                    min_features: min_features || FEATURE_MINIMUMS,
+                    max_features: max_features || FEATURE_MAXIMUMS)
   end
 
   # https://developer.spotify.com/web-api/search-item/
@@ -67,41 +98,6 @@ class SpotifyAPI
   def sample_tracks
     tracks = recently_played + saved_tracks
     tracks.map { |track| track['track'] }.shuffle
-  end
-
-  def working_feature_minimums
-    {
-      # "Values above 0.5 are intended to represent instrumental tracks"
-      instrumentalness: 0.8
-    }
-  end
-
-  def working_feature_maximums
-    {
-      # "death metal has high energy, while a Bach prelude scores low on the scale"
-      energy: 0.5,
-
-      # "Values above 0.66 describe tracks that are probably made entirely of spoken words"
-      speechiness: 0.3
-    }
-  end
-
-  # Returns a hash of audio features, like acousticness and danceability,
-  # with values conducive to focused work.
-  def working_features
-    {
-      # "1.0 represents high confidence the track is acoustic"
-      acousticness: feature_in_range(0.1, 1.0),
-
-      # "death metal has high energy, while a Bach prelude scores low on the scale"
-      energy: feature_in_range(0.0, 0.5),
-
-      # "Values above 0.5 are intended to represent instrumental tracks"
-      instrumentalness: feature_in_range(0.8, 1.0),
-
-      # "Values above 0.66 describe tracks that are probably made entirely of spoken words"
-      speechiness: feature_in_range(0.0, 0.3)
-    }
   end
 
   # https://developer.spotify.com/web-api/get-recommendations/
@@ -168,12 +164,6 @@ class SpotifyAPI
   end
 
   private
-
-  # Returns a Spotify audio feature within the given numeric range, formatted
-  # to the precision the Spotify API expects.
-  def feature_in_range(min, max)
-    '%0.2f' % rand(min..max)
-  end
 
   def default_headers(extra = {})
     extra.merge("Authorization" => "Bearer #{@user.token}")
