@@ -7,3 +7,9 @@
 .layout-children-container {
   flex: 1 0 auto;
 }
+
+@media (min-width: 1000px) {
+  .column.is-offset-0-desktop {
+    margin-left: 0;
+  }
+}
