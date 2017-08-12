@@ -6,10 +6,9 @@ class SpotifyAPI
   PLAYLIST_NAME = "Working, Don't Bother Me"
   PLAYLIST_DESCRIPTION = 'Peaceful, ambient, and atmospheric tracks to work to.'
 
-  # Returns a Spotify audio feature within the given numeric range, formatted
-  # to the precision the Spotify API expects.
+  # Returns a Spotify audio feature within the given numeric range.
   def self.feature_in_range(min, max)
-    '%0.2f' % rand(min..max)
+    ('%0.2f' % rand(min..max)).to_f
   end
 
   FEATURE_MINIMUMS = {
@@ -109,6 +108,7 @@ class SpotifyAPI
       track_ids = seed_tracks.map { |track| track['id'] }.join(',')
       path += "&seed_tracks=#{track_ids}"
     end
+    features = force_features_in_range(features, min_features, max_features)
     path = add_features_to_path(path, features: features, prefix: "target_")
     path = add_features_to_path(path, features: min_features, prefix: "min_")
     path = add_features_to_path(path, features: max_features, prefix: "max_")
@@ -149,6 +149,25 @@ class SpotifyAPI
   end
 
   private
+
+  # Ensures the given hash of audio features has values within the ranges specified in
+  # the given hashes of minimum and maximum feature values.
+  #
+  # Returns a hash of audio features and values.
+  def force_features_in_range(features, min_features, max_features)
+    return features if features.empty? || min_features.empty? && max_features.empty?
+
+    features.inject({}) do |new_features, (feature, value)|
+      if min_features.key?(feature) && min_features[feature] > value
+        new_features[feature] = min_features[feature]
+      elsif max_features.key?(feature) && max_features[feature] < value
+        new_features[feature] = max_features[feature]
+      else
+        new_features[feature] = value
+      end
+      new_features
+    end
+  end
 
   def add_features_to_path(path, features:, prefix:)
     if features.any?
