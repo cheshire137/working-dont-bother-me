@@ -12,21 +12,26 @@ class SpotifyAPI
     @user = user
   end
 
-  # Returns a seed track and a list of recommended tracks that should be good to work to.
+  # Returns a list of seed tracks, the first of which was the one used, and a list
+  # of recommended tracks that should be good to work to.
   def working_recommendations
-    seed_track = sample_track
-    tracks = working_recommendations_for(seed_track)
-    while tracks.empty?
-      seed_track = sample_track
-      tracks = working_recommendations_for(seed_track)
+    seed_tracks = sample_tracks
+    i = 0
+    tracks = working_recommendations_for(seed_tracks[i])
+    while tracks.empty? && i < seed_tracks.length
+      i += 1
+      tracks = working_recommendations_for(seed_tracks[i])
     end
-    full_seed_track = track_info(seed_track)[0]
-    [full_seed_track, track_info(*tracks)]
+    full_seed_tracks = track_info(*seed_tracks)
+    used_seed_track = full_seed_tracks[i]
+    full_seed_tracks.delete_at(i)
+    full_seed_tracks.unshift(used_seed_track)
+    [full_seed_tracks, track_info(*tracks)]
   end
 
   def working_recommendations_for(seed_track)
-    seed_tracks = []
-    seed_tracks << seed_track if seed_track
+    seed_tracks = [seed_track].compact
+    return [] if seed_tracks.empty?
     features = working_features
     min_features = working_feature_minimums
     max_features = working_feature_maximums
@@ -59,9 +64,9 @@ class SpotifyAPI
     end
   end
 
-  def sample_track
+  def sample_tracks
     tracks = recently_played + saved_tracks
-    tracks.sample['track']
+    tracks.map { |track| track['track'] }.shuffle
   end
 
   def working_feature_minimums

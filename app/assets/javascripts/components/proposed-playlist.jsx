@@ -25,7 +25,7 @@ class ProposedPlaylist extends React.Component {
   }
 
   render() {
-    const { seedTrack, tracks, seedIsDefault, allowGeneration } = this.props
+    const { seedTracks, tracks, seedIsDefault, allowGeneration } = this.props
     const { showRefreshTooltip } = this.state
 
     return (
@@ -34,7 +34,7 @@ class ProposedPlaylist extends React.Component {
           <div className="column is-6">
             <p><strong>Based on: </strong></p>
             <SeedSelection
-              seedTrack={seedTrack}
+              seedTrack={seedTracks[0]}
               onChange={newTrack => this.onChangeSeed(newTrack)}
             />
             {seedIsDefault ? (
@@ -85,7 +85,7 @@ class ProposedPlaylist extends React.Component {
 
 ProposedPlaylist.propTypes = {
   tracks: PropTypes.array.isRequired,
-  seedTrack: PropTypes.object.isRequired,
+  seedTracks: PropTypes.array.isRequired,
   onChangeSeed: PropTypes.func.isRequired,
   seedIsDefault: PropTypes.bool,
   generatePlaylist: PropTypes.func.isRequired,

@@ -9,15 +9,19 @@ class SpotifyController < ApplicationController
 
   def generate_playlist
     if (track_id = params[:seed_track_id]).present?
-      @seed_track = api.track_info('id' => track_id)[0]
-      @tracks = api.working_recommendations_for(@seed_track)
-      attempts = 1
-      while attempts < 5 && @tracks.empty?
-        @tracks = api.working_recommendations_for(@seed_track)
-        attempts += 1
+      @seed_tracks = api.track_info('id' => track_id)
+      if @seed_tracks.length > 0
+        @tracks = api.working_recommendations_for(@seed_tracks[0])
+        attempts = 1
+        while attempts < 5 && @tracks.empty?
+          @tracks = api.working_recommendations_for(@seed_tracks[0])
+          attempts += 1
+        end
+      else
+        @tracks = []
       end
     else
-      @seed_track, @tracks = api.working_recommendations
+      @seed_tracks, @tracks = api.working_recommendations
     end
   rescue SpotifyError => error
     handle_exception error
