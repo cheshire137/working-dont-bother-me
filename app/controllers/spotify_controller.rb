@@ -17,6 +17,7 @@ class SpotifyController < ApplicationController
           @tracks = api.working_recommendations_for(@seed_tracks[0])
           attempts += 1
         end
+        @seed_tracks = @seed_tracks.concat(api.sample_tracks).uniq { |track| track['id'] }
       else
         @tracks = []
       end

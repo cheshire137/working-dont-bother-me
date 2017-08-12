@@ -58,12 +58,60 @@ class SeedSelection extends React.Component {
     }
   }
 
+  otherSeedTracks() {
+    const { seedTracks } = this.props
+    const remainingSeedTracks = seedTracks.slice(1)
+
+    if (remainingSeedTracks.length < 1) {
+      return null
+    }
+
+    return (
+      <div className="other-seed-tracks">
+        <h3 className="subtitle is-6">Other tracks you've been playing:</h3>
+        {remainingSeedTracks.map(track => (
+          <button
+            type="button"
+            key={track.id}
+            className="dropdown-item"
+            onClick={e => this.chooseSeed(e, track)}
+          ><Track {...track} /></button>
+        ))}
+      </div>
+    )
+  }
+
   searchForTrack(query) {
     this.setState({ isSearching: true }, () => {
       const api = new WorkingAPI()
       api.searchTracks(query).then(tracks => this.onSearchResults(tracks)).
         catch(err => this.onSearchError(err))
     })
+  }
+
+  searchResults() {
+    const { tracks } = this.state
+
+    return (
+      <div className="search-results">
+        <h3 className="subtitle is-6 clearfix">
+          <button
+            type="button"
+            className="button is-link is-small pull-right"
+            onClick={e => this.clearSearchResults(e)}
+          >Clear</button>
+          Search results:
+        </h3>
+        {tracks.map(track => (
+          <button
+            type="button"
+            key={track.id}
+            className="dropdown-item"
+            onClick={e => this.chooseSeed(e, track)}
+          ><Track {...track} /></button>
+        ))}
+      </div>
+    )
   }
 
   submitSearch(event) {
@@ -81,11 +129,9 @@ class SeedSelection extends React.Component {
   }
 
   dropdownContent() {
-    const { seedTracks } = this.props
     const { query, tracks, isSearching } = this.state
     const haveResults = tracks && tracks.length > 0
     const haveQuery = typeof query === 'string' && query.trim().length > 0
-    const remainingSeedTracks = seedTracks.slice(1)
 
     return (
       <div className="dropdown-content">
@@ -117,38 +163,7 @@ class SeedSelection extends React.Component {
             >Search</button>
           </div>
         </div>
-        {haveResults ? (
-          <div className="search-results">
-            <h3 className="subtitle is-6 clearfix">
-              <button
-                type="button"
-                className="button is-link is-small pull-right"
-                onClick={e => this.clearSearchResults(e)}
-              >Clear</button>
-              Search results:
-            </h3>
-            {tracks.map(track => (
-              <button
-                type="button"
-                key={track.id}
-                className="dropdown-item"
-                onClick={e => this.chooseSeed(e, track)}
-              ><Track {...track} /></button>
-            ))}
-          </div>
-        ) : (
-          <div className="other-seed-tracks">
-            <h3 className="subtitle is-6">Other tracks you've been playing:</h3>
-            {remainingSeedTracks.map(track => (
-              <button
-                type="button"
-                key={track.id}
-                className="dropdown-item"
-                onClick={e => this.chooseSeed(e, track)}
-              ><Track {...track} /></button>
-            ))}
-          </div>
-        )}
+        {haveResults ? this.searchResults() : this.otherSeedTracks()}
       </div>
     )
   }
