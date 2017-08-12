@@ -115,11 +115,6 @@ class SpotifyAPI
     tracks[0...limit]
   end
 
-  # https://developer.spotify.com/web-api/get-playlist/
-  def get_playlist(playlist_id)
-    get("/users/#{@user.uid}/playlists/#{playlist_id}")
-  end
-
   # https://developer.spotify.com/web-api/create-playlist/
   def create_playlist
     url = "/#{API_VERSION}/users/#{@user.uid}/playlists"
