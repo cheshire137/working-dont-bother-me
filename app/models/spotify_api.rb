@@ -47,13 +47,15 @@ class SpotifyAPI
 
   # Returns a list of seed tracks, the first of which was the one used, and a list
   # of recommended tracks that should be good to work to.
-  def working_recommendations
+  def working_recommendations(features: nil, min_features: nil, max_features: nil)
     seed_tracks = sample_tracks
     i = 0
-    tracks = working_recommendations_for(seed_tracks[i])
+    tracks = working_recommendations_for(seed_tracks[i], features: features,
+                                         min_features: min_features, max_features: max_features)
     while tracks.empty? && i < seed_tracks.length
       i += 1
-      tracks = working_recommendations_for(seed_tracks[i])
+      tracks = working_recommendations_for(seed_tracks[i], features: features,
+                                           min_features: min_features, max_features: max_features)
     end
     full_seed_tracks = track_info(*seed_tracks)
     used_seed_track = full_seed_tracks[i]
