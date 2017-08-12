@@ -6,7 +6,7 @@ import ProposedPlaylist from './proposed-playlist.jsx'
 class PlaylistPage extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { seedIsDefault: true, isGenerating: false }
+    this.state = { isGenerating: false }
   }
 
   componentDidMount() {
@@ -27,9 +27,7 @@ class PlaylistPage extends React.Component {
   }
 
   changeSeed(track) {
-    this.setState({ seedIsDefault: false }, () => {
-      this.generatePlaylist(track.id)
-    })
+    this.generatePlaylist(track.id)
   }
 
   generatePlaylist(trackID) {
@@ -42,7 +40,7 @@ class PlaylistPage extends React.Component {
   }
 
   render() {
-    const { tracks, seedTracks, seedIsDefault, isGenerating } = this.state
+    const { tracks, seedTracks, isGenerating } = this.state
     const tracksLoaded = typeof tracks === 'object' && tracks
 
     return (
@@ -54,7 +52,6 @@ class PlaylistPage extends React.Component {
               <ProposedPlaylist
                 tracks={tracks}
                 seedTracks={seedTracks}
-                seedIsDefault={seedIsDefault}
                 onChangeSeed={newTrack => this.changeSeed(newTrack)}
                 generatePlaylist={() => this.generatePlaylist(seedTracks[0].id)}
                 allowGeneration={!isGenerating}
