@@ -140,7 +140,7 @@ class SeedSelection extends React.Component {
             className="button track-button with-tooltip with-tooltip-top"
             aria-haspopup="true"
             aria-controls="dropdown-menu"
-            aria-label="Base your playlist off another song"
+            aria-label="Your playlist is based off of this song"
           >
             <Track {...seedTrack} />
             <span className="icon is-small">
