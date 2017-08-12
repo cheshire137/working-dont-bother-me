@@ -12,13 +12,17 @@
   </head>
   <body>
     <% if alert.present? %>
-      <div class="container has-text-center">
-        <div class="notification is-warning"><%= alert %></div>
+      <div class="notification is-warning">
+        <div class="container has-text-center">
+          <%= alert %>
+        </div>
       </div>
     <% end %>
     <% if notice.present? %>
-      <div class="container has-text-center">
-        <div class="notification is-success"><%= notice %></div>
+      <div class="notification is-success">
+        <div class="container has-text-center">
+          <%= notice %>
+        </div>
       </div>
     <% end %>
     <%= yield %>
