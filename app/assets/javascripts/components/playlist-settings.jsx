@@ -43,14 +43,14 @@ class PlaylistSettings extends React.Component {
           </header>
           <section className="modal-card-body">
             {features.map(feature => (
-              <div key={feature.name} className="control is-horizontal">
+              <div key={feature.name} className="field">
                 <div className="control-label">
                   <label
                     className="label"
                     htmlFor={feature}
                   >{feature.label}</label>
                 </div>
-                <div className="control">
+                <div className="field has-addons">
                   <span className="feature-range-min">0%</span>
                   <input
                     onChange={e => this.onFeatureChange(e, feature.name)}
