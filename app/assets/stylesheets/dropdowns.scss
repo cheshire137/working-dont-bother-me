@@ -3,11 +3,12 @@
   @include flex-grow(1);
   position: relative;
   vertical-align: top;
+  overflow: hidden;
 }
 
 .dropdown-trigger {
-  @include display-flex;
-  @include flex-grow(1);
+  display: block;
+  max-width: 100%;
 }
 
 .dropdown.is-active,
