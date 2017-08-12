@@ -6,7 +6,7 @@
 }
 
 .dropdown-trigger {
-  display: block;
+  @include display-flex;
   width: 100%;
 }
 
