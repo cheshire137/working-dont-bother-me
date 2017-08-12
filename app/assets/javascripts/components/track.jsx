@@ -86,28 +86,28 @@ class Track extends React.Component {
           type="button"
           onClick={e => this.onSelect(e)}
         >
-          <span className="track-name" title={name}>{name}</span>
-          <span className="artist-names">
+          <div className="track-name" title={name}>{name}</div>
+          <div className="artist-names">
             {artists.map(artist => (
               <span key={artist.id} className="artist-name">
                 {artist.name}
               </span>
             ))}
-          </span>
+          </div>
         </button>
       )
     }
 
     return (
       <span className="track-info">
-        <span className="track-name" title={name}>{name}</span>
-        <span className="artist-names">
+        <div className="track-name" title={name}>{name}</div>
+        <div className="artist-names">
           {artists.map(artist => (
             <span key={artist.id} className="artist-name">
               {artist.name}
             </span>
           ))}
-        </span>
+        </div>
       </span>
     )
   }
@@ -117,7 +117,7 @@ class Track extends React.Component {
     const trackIsSelectable = typeof onSelect === 'function'
 
     return (
-      <span className={`track-and-artists ${trackIsSelectable ? 'selectable' : ''}`}>
+      <div className={`track-and-artists ${trackIsSelectable ? 'selectable' : ''}`}>
         {this.includeAudio() ? (
           <audio
             preload="metadata"
@@ -128,7 +128,7 @@ class Track extends React.Component {
         ) : ''}
         {this.hasImage() ? this.image() : ''}
         {this.trackInfo()}
-      </span>
+      </div>
     )
   }
 }

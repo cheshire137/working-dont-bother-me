@@ -1,11 +1,14 @@
 .track-and-artists {
-  @include display-flex;
-  @include align-items(center);
-  @include flex-grow(1);
   overflow: hidden;
+  @include display-flex;
 
   &.selectable {
     border: 1px solid #ddd;
+  }
+
+  &:not(.selectable) {
+    @include align-items(center);
+    @include flex-grow(1);
   }
 }
 
@@ -20,10 +23,36 @@ button.audio-toggle,
   border-radius: 3px;
 }
 
+.selectable button.track-info {
+  @include flex-grow(1);
+  min-height: 64px;
+  position: relative;
+
+  .track-name,
+  .artist-names {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+  }
+
+  .track-name {
+    top: 12px;
+  }
+
+  .artist-names {
+    bottom: 12px;
+  }
+}
+
 button.audio-toggle.selectable,
 .track-image.selectable {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+button.audio-toggle.selectable {
+  max-width: 25%;
+  float: left;
 }
 
 .artist-names {
@@ -109,26 +138,15 @@ button.audio-toggle {
   line-height: 1.33;
 }
 
-.artist-name {
-  white-space: nowrap;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  position: relative;
-  display: inline-block;
-}
-
 .artist-name + .artist-name:before {
   content: "\a0\b7\a0";
 }
 
 .artist-names,
 .track-name {
-  width: 100%;
-  white-space: nowrap;
-  display: block;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .track-name {
