@@ -86,6 +86,9 @@ button.track-info {
   @include flex-shrink(1);
   @include flex-direction(column);
   @include justify-content(center);
+  @include transition-property(background-color);
+  @include transition-duration(0.2s);
+  @include transition-timing-function(ease-in-out);
 
   &:hover,
   &:focus {
