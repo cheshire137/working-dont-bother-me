@@ -74,9 +74,11 @@ class SeedSelection extends React.Component {
   }
 
   dropdownContent() {
+    const { seedTracks } = this.props
     const { query, tracks, isSearching } = this.state
     const haveResults = tracks && tracks.length > 0
     const haveQuery = typeof query === 'string' && query.trim().length > 0
+    const remainingSeedTracks = seedTracks.slice(1)
 
     return (
       <div className="dropdown-content">
@@ -109,7 +111,8 @@ class SeedSelection extends React.Component {
           </div>
         </div>
         {haveResults ? (
-          <div>
+          <div className="search-results">
+            <h3 className="subtitle is-6">Search results:</h3>
             {tracks.map(track => (
               <button
                 type="button"
@@ -119,13 +122,25 @@ class SeedSelection extends React.Component {
               ><Track {...track} /></button>
             ))}
           </div>
-        ) : ''}
+        ) : (
+          <div className="other-seed-tracks">
+            <h3 className="subtitle is-6">Other tracks you've been playing:</h3>
+            {remainingSeedTracks.map(track => (
+              <button
+                type="button"
+                key={track.id}
+                className="dropdown-item"
+                onClick={e => this.chooseSeed(e, track)}
+              ><Track {...track} /></button>
+            ))}
+          </div>
+        )}
       </div>
     )
   }
 
   render() {
-    const { seedTrack } = this.props
+    const { seedTracks } = this.props
     const dropdownClasses = ['dropdown']
     if (this.state.expanded) {
       dropdownClasses.push('is-active')
@@ -142,7 +157,7 @@ class SeedSelection extends React.Component {
             aria-controls="dropdown-menu"
             aria-label="Your playlist is based off of this song"
           >
-            <Track {...seedTrack} />
+            <Track {...seedTracks[0]} />
             <span className="icon is-small">
               <i className="fa fa-angle-down" aria-hidden="true" />
             </span>
@@ -157,7 +172,7 @@ class SeedSelection extends React.Component {
 }
 
 SeedSelection.propTypes = {
-  seedTrack: PropTypes.object.isRequired,
+  seedTracks: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired
 }
 

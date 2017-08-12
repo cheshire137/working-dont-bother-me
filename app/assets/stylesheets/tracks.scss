@@ -157,3 +157,10 @@ button.audio-toggle {
   line-height: 1.33;
   font-size: 1rem;
 }
+
+.other-seed-tracks,
+.search-results {
+  .subtitle:not(:last-child) {
+    margin-bottom: 0;
+  }
+}

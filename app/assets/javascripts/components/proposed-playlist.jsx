@@ -34,7 +34,7 @@ class ProposedPlaylist extends React.Component {
           <div className="column is-6">
             <p><strong>Based on: </strong></p>
             <SeedSelection
-              seedTrack={seedTracks[0]}
+              seedTracks={seedTracks}
               onChange={newTrack => this.onChangeSeed(newTrack)}
             />
             {seedIsDefault ? (
