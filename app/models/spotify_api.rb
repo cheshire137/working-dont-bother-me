@@ -107,21 +107,9 @@ class SpotifyAPI
       track_ids = seed_tracks.map { |track| track['id'] }.join(',')
       path += "&seed_tracks=#{track_ids}"
     end
-    if features.any?
-      features.each do |feature, value|
-        path += "&target_#{feature}=#{value}"
-      end
-    end
-    if min_features.any?
-      min_features.each do |feature, value|
-        path += "&min_#{feature}=#{value}"
-      end
-    end
-    if max_features.any?
-      max_features.each do |feature, value|
-        path += "&max_#{feature}=#{value}"
-      end
-    end
+    path = add_features_to_path(path, features: features, prefix: "target_")
+    path = add_features_to_path(path, features: min_features, prefix: "min_")
+    path = add_features_to_path(path, features: max_features, prefix: "max_")
     data = get(path)
     tracks = data['tracks'].uniq { |track| track['id'] }
     tracks[0...limit]
@@ -164,6 +152,15 @@ class SpotifyAPI
   end
 
   private
+
+  def add_features_to_path(path, features:, prefix:)
+    if features.any?
+      features.each do |feature, value|
+        path += "&#{prefix}#{feature}=#{value}"
+      end
+    end
+    path
+  end
 
   def default_headers(extra = {})
     extra.merge("Authorization" => "Bearer #{@user.token}")
