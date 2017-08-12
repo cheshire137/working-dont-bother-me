@@ -45,6 +45,13 @@ class SeedSelection extends React.Component {
     this.props.onChange(track)
   }
 
+  clearSearchResults(event) {
+    event.currentTarget.blur()
+    this.setState({ query: '', isSearching: false, tracks: null }, () => {
+      this.searchInput.focus()
+    })
+  }
+
   handleClickOutside() {
     if (this.state.expanded) {
       this.setState({ expanded: false })
@@ -112,7 +119,14 @@ class SeedSelection extends React.Component {
         </div>
         {haveResults ? (
           <div className="search-results">
-            <h3 className="subtitle is-6">Search results:</h3>
+            <h3 className="subtitle is-6 clearfix">
+              <button
+                type="button"
+                className="button is-link is-small pull-right"
+                onClick={e => this.clearSearchResults(e)}
+              >Clear</button>
+              Search results:
+            </h3>
             {tracks.map(track => (
               <button
                 type="button"
