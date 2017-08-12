@@ -10,7 +10,7 @@ import TracksList from './tracks-list.jsx'
 class ProposedPlaylist extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = { showRefreshTooltip: false }
   }
 
   onChangeSeed(newTrack) {
@@ -26,6 +26,7 @@ class ProposedPlaylist extends React.Component {
 
   render() {
     const { seedTrack, tracks, seedIsDefault, allowGeneration } = this.props
+    const { showRefreshTooltip } = this.state
 
     return (
       <div className="content">
@@ -58,12 +59,17 @@ class ProposedPlaylist extends React.Component {
                 <p><strong>...here are some songs for you: </strong></p>
               </div>
               <div className="column has-text-right">
-                <button
-                  type="button"
-                  disabled={!allowGeneration}
-                  className="is-small button is-transparent"
-                  onClick={e => this.generatePlaylist(e)}
-                ><i className={`fa fa-refresh ${allowGeneration ? '' : 'fa-spin'}`} aria-hidden="true" /></button>
+                <div className="refresh-container">
+                  <button
+                    type="button"
+                    disabled={!allowGeneration}
+                    className="is-small button is-transparent with-tooltip with-tooltip-left"
+                    onClick={e => this.generatePlaylist(e)}
+                    aria-label="Find different songs"
+                  >
+                    <i className={`fa fa-refresh ${allowGeneration ? '' : 'fa-spin'}`} aria-hidden="true" />
+                  </button>
+                </div>
               </div>
             </div>
             <TracksList

@@ -1,23 +1,10 @@
 import PropTypes from 'prop-types'
 
 class Track extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = { showTooltip: false }
-  }
-
   onAudioEnded() {
     if (this.props.onPause) {
       this.props.onPause()
     }
-  }
-
-  onMouseOver(event) {
-    this.setState({ showTooltip: true })
-  }
-
-  onMouseOut(event) {
-    this.setState({ showTooltip: false })
   }
 
   onSelect(event) {
@@ -95,11 +82,10 @@ class Track extends React.Component {
     if (this.props.onSelect) {
       return (
         <button
-          className="track-info"
+          className="track-info with-tooltip with-tooltip-bottom"
           type="button"
+          aria-label="Click to find songs like this"
           onClick={e => this.onSelect(e)}
-          onMouseOver={e => this.onMouseOver(e)}
-          onMouseOut={e => this.onMouseOut(e)}
         >
           <div className="track-name" title={name}>{name}</div>
           <div className="artist-names">
@@ -129,7 +115,6 @@ class Track extends React.Component {
 
   render() {
     const { url, image, audioUrl, allowedToPlay, onSelect } = this.props
-    const { showTooltip, x, y } = this.state
     const trackIsSelectable = typeof onSelect === 'function'
 
     return (
@@ -144,12 +129,6 @@ class Track extends React.Component {
         ) : ''}
         {this.hasImage() ? this.image() : ''}
         {this.trackInfo()}
-        {showTooltip ? (
-          <div className="tooltip">
-            <div className="arrow"></div>
-            <span>Click to find songs like this</span>
-          </div>
-        ) : ''}
       </div>
     )
   }
