@@ -44,6 +44,16 @@ class SpotifyAPI
     @user = user
   end
 
+  def self.features_list
+    FEATURE_TARGETS.map do |feature, value|
+      {
+        name: feature,
+        value: value,
+        label: feature.to_s.capitalize
+      }
+    end
+  end
+
   # Returns a list of seed tracks, the first of which was the one used, and a list
   # of recommended tracks that should be good to work to.
   def working_recommendations(features: nil, min_features: nil, max_features: nil)

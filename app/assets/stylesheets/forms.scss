@@ -27,6 +27,15 @@
   padding-top: 0;
   padding-bottom: 0;
   border: none;
+  color: $blue;
+  @include transition-property(color);
+  @include transition-duration(0.2s);
+  @include transition-timing-function(ease-in-out);
+
+  &:hover,
+  &:focus {
+    color: $pink;
+  }
 }
 
 .button.is-primary {

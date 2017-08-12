@@ -8,6 +8,7 @@ class SpotifyController < ApplicationController
   end
 
   def generate_playlist
+    @features = SpotifyAPI.features_list
     if (track_id = params[:seed_track_id]).present?
       @seed_tracks = api.track_info('id' => track_id)
       if @seed_tracks.length > 0

@@ -17,7 +17,8 @@ class PlaylistPage extends React.Component {
     this.setState({
       tracks: data.tracks,
       seedTracks: data.seedTracks,
-      isGenerating: false
+      isGenerating: false,
+      features: data.features
     })
   }
 
@@ -40,7 +41,7 @@ class PlaylistPage extends React.Component {
   }
 
   render() {
-    const { tracks, seedTracks, isGenerating } = this.state
+    const { tracks, seedTracks, isGenerating, features } = this.state
     const tracksLoaded = typeof tracks === 'object' && tracks
 
     return (
@@ -51,6 +52,7 @@ class PlaylistPage extends React.Component {
             {tracksLoaded ? (
               <ProposedPlaylist
                 tracks={tracks}
+                features={features}
                 seedTracks={seedTracks}
                 onChangeSeed={newTrack => this.changeSeed(newTrack)}
                 generatePlaylist={() => this.generatePlaylist(seedTracks[0].id)}

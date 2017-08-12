@@ -1,3 +1,10 @@
+json.features do
+  json.array! @features do |feature|
+    json.name feature[:name]
+    json.value feature[:value]
+    json.label feature[:label]
+  end
+end
 json.tracks do
   json.array! @tracks do |track|
     json.id track['id']
