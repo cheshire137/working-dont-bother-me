@@ -56,7 +56,7 @@ class PlaylistPage extends React.Component {
                 seedTracks={seedTracks}
                 seedIsDefault={seedIsDefault}
                 onChangeSeed={newTrack => this.changeSeed(newTrack)}
-                generatePlaylist={() => this.generatePlaylist(seedTrack.id)}
+                generatePlaylist={() => this.generatePlaylist(seedTracks[0].id)}
                 allowGeneration={!isGenerating}
               />
             ) : (
