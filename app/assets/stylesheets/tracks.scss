@@ -26,26 +26,6 @@ button.audio-toggle.selectable,
   border-bottom-right-radius: 0;
 }
 
-.content ul.tracks-list {
-  list-style: none;
-  margin-left: 0;
-  @include display-flex;
-  @include flex-wrap(wrap);
-
-  li {
-    margin-bottom: 1em;
-    padding-right: 1em;
-    @include display-flex;
-    @include flex-grow(1);
-    width: 33%;
-    max-width: 33%;
-
-    + li {
-      margin-top: 0;
-    }
-  }
-}
-
 .artist-names {
   font-size: 0.85rem;
   color: #555;
@@ -140,13 +120,6 @@ button.audio-toggle {
 
 .artist-name + .artist-name:before {
   content: "\a0\b7\a0";
-}
-
-.selectable {
-  .artist-names,
-  .track-name {
-    width: 214px;
-  }
 }
 
 .artist-names,

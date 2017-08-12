@@ -19,27 +19,37 @@ class TracksList extends React.Component {
   render() {
     const { tracks, onSelect } = this.props
     const { playingTrackID } = this.state
+    const chunkSize = 3
+    const groups = tracks.map((track, i) => {
+      if (i % chunkSize === 0) {
+        return tracks.slice(i, i + chunkSize)
+      }
+    }).filter(track => track)
 
     return (
-      <ul className="tracks-list">
+      <div>
         {tracks.length < 1 ? (
-          <li>
+          <p>
             <span>Could not find any similar songs that would be conducive to work.&nbsp;</span>
             <i className="fa fa-frown-o" aria-hidden="true" />
-          </li>
+          </p>
         ) : ''}
-        {tracks.map(track => (
-          <li key={track.id}>
-            <Track
-              {...track}
-              allowedToPlay={typeof playingTrackID !== 'string' || playingTrackID === track.id}
-              onPlay={() => this.stopOtherAudio(track.id)}
-              onPause={() => this.allAudioStopped()}
-              onSelect={() => onSelect(track)}
-            />
-          </li>
+        {groups.map(tracksInGroup => (
+          <div key={tracksInGroup.map(t => t.id).join(',')} className="columns is-desktop">
+            {tracksInGroup.map(track => (
+              <div className="column is-4-desktop is-12-tablet" key={track.id}>
+                <Track
+                  {...track}
+                  allowedToPlay={typeof playingTrackID !== 'string' || playingTrackID === track.id}
+                  onPlay={() => this.stopOtherAudio(track.id)}
+                  onPause={() => this.allAudioStopped()}
+                  onSelect={() => onSelect(track)}
+                />
+              </div>
+            ))}
+          </div>
         ))}
-      </ul>
+      </div>
     )
   }
 }
