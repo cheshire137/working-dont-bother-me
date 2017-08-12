@@ -35,9 +35,9 @@ class SpotifyAPI
   end
 
   # https://developer.spotify.com/web-api/search-item/
-  def search_tracks(query)
+  def search_tracks(query, limit: 20)
     q = CGI.escape(query)
-    data = get("/search?q=#{q}&type=track")
+    data = get("/search?q=#{q}&type=track&limit=#{limit}")
     basic_tracks = data['tracks']['items']
     return basic_tracks if basic_tracks.empty?
     track_info(*basic_tracks)
