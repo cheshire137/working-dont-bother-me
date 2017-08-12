@@ -54,7 +54,7 @@ class PlaylistForm extends React.Component {
             </p>
           ) : (
             <p className="help">
-              <span>A new playlist will be created in your Spotify with these songs.</span>
+              <span>A playlist will be created on Spotify with these songs.</span>
             </p>
           )}
         </form>

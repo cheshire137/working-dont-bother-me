@@ -56,7 +56,7 @@ class ProposedPlaylist extends React.Component {
           <div className="column is-12">
             <div className="columns">
               <div className="column">
-                <p><strong>...here are some songs for you: </strong></p>
+                <p><strong>Songs for your playlist:</strong></p>
               </div>
               <div className="column has-text-right">
                 <div className="refresh-container">
