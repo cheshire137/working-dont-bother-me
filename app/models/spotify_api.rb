@@ -44,8 +44,8 @@ class SpotifyAPI
     @user = user
   end
 
-  def self.features_list
-    FEATURE_TARGETS.map do |feature, value|
+  def self.features_list(features_hash)
+    features_hash.map do |feature, value|
       {
         name: feature,
         value: value,
