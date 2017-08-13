@@ -27,7 +27,7 @@
   padding-top: 0;
   padding-bottom: 0;
   border: none;
-  color: $blue;
+  color: #777;
   @include transition-property(color);
   @include transition-duration(0.2s);
   @include transition-timing-function(ease-in-out);

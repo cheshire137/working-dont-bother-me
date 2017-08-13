@@ -18,6 +18,10 @@ class ProposedPlaylist extends React.Component {
     this.props.onChangeSeed(newTrack)
   }
 
+  onChangeFeatures(newFeatures) {
+    this.props.onChangeFeatures(newFeatures)
+  }
+
   closeSettings() {
     this.setState({ showSettings: false })
   }
@@ -93,6 +97,7 @@ class ProposedPlaylist extends React.Component {
           <PlaylistSettings
             features={features}
             close={() => this.closeSettings()}
+            save={newFeatures => this.onChangeFeatures(newFeatures)}
           />
         ) : ''}
       </div>
@@ -104,6 +109,7 @@ ProposedPlaylist.propTypes = {
   tracks: PropTypes.array.isRequired,
   seedTracks: PropTypes.array.isRequired,
   onChangeSeed: PropTypes.func.isRequired,
+  onChangeFeatures: PropTypes.func.isRequired,
   generatePlaylist: PropTypes.func.isRequired,
   features: PropTypes.array.isRequired,
   allowGeneration: PropTypes.bool

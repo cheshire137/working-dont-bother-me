@@ -31,10 +31,19 @@ class PlaylistPage extends React.Component {
     this.generatePlaylist(track.id)
   }
 
-  generatePlaylist(trackID) {
+  changeFeatures(featuresList) {
+    const featuresHash = {}
+    for (let feature of featuresList) {
+      featuresHash[feature.name] = feature.value
+    }
+    const seedTrack = this.state.seedTracks[0]
+    this.generatePlaylist(seedTrack.id, featuresHash)
+  }
+
+  generatePlaylist(trackID, features) {
     this.setState({ isGenerating: true, tracks: null }, () => {
       const api = new WorkingAPI()
-      api.generatePlaylist(trackID).
+      api.generatePlaylist(trackID, features).
         then(data => this.onPlaylistGenerated(data)).
         catch(err => this.onPlaylistGenerationError(err))
     })
@@ -55,6 +64,7 @@ class PlaylistPage extends React.Component {
                 features={features}
                 seedTracks={seedTracks}
                 onChangeSeed={newTrack => this.changeSeed(newTrack)}
+                onChangeFeatures={newFeatures => this.changeFeatures(newFeatures)}
                 generatePlaylist={() => this.generatePlaylist(seedTracks[0].id)}
                 allowGeneration={!isGenerating}
               />

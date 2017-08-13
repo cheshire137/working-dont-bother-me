@@ -13,10 +13,15 @@ export default class WorkingAPI extends Fetcher {
     }
   }
 
-  generatePlaylist(seedTrackID) {
+  generatePlaylist(seedTrackID, features) {
     let path = '/generate-playlist'
     if (typeof seedTrackID === 'string' && seedTrackID.length > 0) {
       path += `?seed_track_id=${encodeURIComponent(seedTrackID)}`
+    }
+    if (typeof features === 'object') {
+      for (let feature in features) {
+        path += `&${encodeURIComponent(feature)}=${features[feature]}`
+      }
     }
     return this.get(path, this.defaultHeaders)
   }

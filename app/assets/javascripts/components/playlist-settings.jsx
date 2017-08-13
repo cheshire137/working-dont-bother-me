@@ -25,6 +25,10 @@ class PlaylistSettings extends React.Component {
     this.setState({ features: newFeatures })
   }
 
+  save() {
+    this.props.save(this.state.features)
+  }
+
   render() {
     const { close } = this.props
     const { features } = this.state
@@ -70,6 +74,12 @@ class PlaylistSettings extends React.Component {
               </div>
             ))}
           </section>
+          <footer className="modal-card-foot">
+            <button
+              className="button is-success"
+              onClick={() => this.save()}
+            >Save settings</button>
+          </footer>
         </div>
       </div>
     )
@@ -78,7 +88,8 @@ class PlaylistSettings extends React.Component {
 
 PlaylistSettings.propTypes = {
   close: PropTypes.func.isRequired,
-  features: PropTypes.array.isRequired
+  features: PropTypes.array.isRequired,
+  save: PropTypes.func.isRequired
 }
 
 export default PlaylistSettings
