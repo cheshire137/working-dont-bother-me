@@ -119,3 +119,15 @@ input[type="range"]:focus::-ms-fill-lower {
 input[type="range"]:focus::-ms-fill-upper {
   background: $yellow;
 }
+
+.field.slider-field:not(:last-child) {
+  margin-bottom: 0;
+}
+
+.help.slider-help {
+  margin-top: 5px;
+}
+
+.field.audio-feature-field:not(:last-child) {
+  margin-bottom: 1.5rem;
+}

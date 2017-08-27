@@ -46,33 +46,37 @@ class PlaylistSettings extends React.Component {
             />
           </header>
           <section className="modal-card-body">
-            {features.map(feature => (
-              <div key={feature.name} className="field">
-                <div className="control-label">
-                  <label
-                    className="label"
-                    htmlFor={feature}
-                  >{feature.label}</label>
+            <div className="content">
+              <p>Change the music in your playlist by adjusting these audio features.</p>
+              {features.map(feature => (
+                <div key={feature.name} className="field audio-feature-field">
+                  <div className="control-label">
+                    <label
+                      className="label"
+                      htmlFor={feature}
+                    >{feature.label}</label>
+                  </div>
+                  <div className="field has-addons slider-field">
+                    <span className="feature-range-min">0%</span>
+                    <input
+                      onChange={e => this.onFeatureChange(e, feature.name)}
+                      id={feature.name}
+                      value={feature.value}
+                      type="range"
+                      min="0"
+                      max="1"
+                      step="0.05"
+                      className="slider"
+                    />
+                    <span className="feature-range-max">100%</span>
+                    <span className="feature-percentage">
+                      {Math.round(feature.value * 100)}%
+                    </span>
+                  </div>
+                  <p className="help slider-help">{feature.description}</p>
                 </div>
-                <div className="field has-addons">
-                  <span className="feature-range-min">0%</span>
-                  <input
-                    onChange={e => this.onFeatureChange(e, feature.name)}
-                    id={feature.name}
-                    value={feature.value}
-                    type="range"
-                    min="0"
-                    max="1"
-                    step="0.05"
-                    className="slider"
-                  />
-                  <span className="feature-range-max">100%</span>
-                  <span className="feature-percentage">
-                    {Math.round(feature.value * 100)}%
-                  </span>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </section>
           <footer className="modal-card-foot">
             <button
