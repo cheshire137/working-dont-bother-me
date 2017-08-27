@@ -9,7 +9,7 @@ from my manually curated
 [Workin' Don't Bother Me](https://open.spotify.com/user/cheshire137/playlist/48qLKsZUHuMTiV8whluf4j)
 playlist on Spotify.
 
-![Screenshot](https://raw.githubusercontent.com/cheshire137/working-dont-bother-me/master/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/cheshire137/working-dont-bother-me/master/screenshot1.png)
 
 ## How to Develop
 
