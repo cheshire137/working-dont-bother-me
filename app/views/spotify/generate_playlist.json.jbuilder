@@ -3,6 +3,7 @@ json.features do
     json.name feature[:name]
     json.value feature[:value]
     json.label feature[:label]
+    json.description feature[:description]
   end
 end
 json.tracks do

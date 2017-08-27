@@ -38,6 +38,13 @@ class SpotifyAPI
     speechiness: feature_in_range(0.0, 0.3)
   }.freeze
 
+  FEATURE_DESCRIPTIONS = {
+    acousticness: 'A confidence measure of whether the track is acoustic.',
+    energy: 'A perceptual measure of intensity and activity.',
+    instrumentalness: 'Whether a track lacks vocals.',
+    speechiness: 'Detects the presence of spoken words.'
+  }.freeze
+
   base_uri BASE_URI
 
   def initialize(user)
@@ -49,7 +56,8 @@ class SpotifyAPI
       {
         name: feature,
         value: value,
-        label: feature.to_s.capitalize
+        label: feature.to_s.capitalize,
+        description: FEATURE_DESCRIPTIONS[feature]
       }
     end
   end
